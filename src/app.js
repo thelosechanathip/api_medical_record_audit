@@ -20,6 +20,7 @@ app.use(morgan("dev"));
 app.use(express.json()); 
 // Middleware เพื่อแปลงข้อมูล request body ที่เป็น JSON ให้อยู่ในรูปแบบ JavaScript object 
 // ทำให้สามารถเข้าถึงข้อมูลจาก req.body ได้
+app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 
 // ตั้งค่า Swagger UI ให้ทำงานที่เส้นทาง /api-docs 

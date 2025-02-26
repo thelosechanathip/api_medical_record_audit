@@ -6,15 +6,23 @@
     "description": "เอกสาร API สำหรับการจัดการ Medical Record Audit แอปพลิเคชันที่ช่วยในการจัดระเบียบงานและติดตามงานที่ต้องทำ สามารถเพิ่ม, แก้ไข, ลบ และเรียกดูรายการงานได้"
   },
   "servers": [
-    { "url": "http://localhost:3715/", "description": "เซิร์ฟเวอร์ทดสอบในเครื่อง (localhost)" }
+    {
+      "url": "http://localhost:3715/",
+      "description": "เซิร์ฟเวอร์ทดสอบในเครื่อง (localhost)"
+    }
   ],
   "tags": [
-    { "name": "Auth", "description": "Endpoints สำหรับการยืนยันตัวตนและการจัดการสิทธิ์ เช่น Login, Logout" }
+    {
+      "name": "Auth",
+      "description": "Endpoints สำหรับการยืนยันตัวตนและการจัดการสิทธิ์ เช่น Login, Logout"
+    }
   ],
   "paths": {
     "/api/auth/authRegister": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Generate User จากโปรแกรม BackOffice",
         "description": "ดึงข้อมูลเจ้าหน้าที่จาก BackOffice เข้ามาใน Medical Record Audit",
         "requestBody": {
@@ -30,21 +38,70 @@
                     "description": "เลขบัตรประจำตัวประชาชน 13 หลักที่เข้ารหัสด้วย CryptoJS"
                   }
                 },
-                "required": ["national_id"]
+                "required": [
+                  "national_id"
+                ]
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "ดึงข้อมูลสำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Generate users successfully!!" } } } } } },
-          "400": { "description": "ไม่มีข้อมูลใน BackOffice", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "กรุณาตรวจสอบเลขบัตรประชาชนเพราะไม่มีข้อมูลในระบบ BackOffice!" } } } } } },
-          "500": { "description": "ข้อผิดพลาดเซิร์ฟเวอร์", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "internal server errors" } } } } } }
+          "200": {
+            "description": "ดึงข้อมูลสำเร็จ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Generate users successfully!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ไม่มีข้อมูลใน BackOffice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "กรุณาตรวจสอบเลขบัตรประชาชนเพราะไม่มีข้อมูลในระบบ BackOffice!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     "/api/auth/authLogin": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "เข้าสู่ระบบ",
         "description": "ตรวจสอบ username และ password",
         "requestBody": {
@@ -54,26 +111,119 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "username": { "type": "string", "example": "admin", "description": "ชื่อผู้ใช้" },
-                  "password": { "type": "string", "format": "password", "example": "P@ssw0rd!", "description": "รหัสผ่านต้องมีตัวพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และอักขระพิเศษ" }
+                  "username": {
+                    "type": "string",
+                    "example": "admin",
+                    "description": "ชื่อผู้ใช้"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "P@ssw0rd!",
+                    "description": "รหัสผ่านต้องมีตัวพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และอักขระพิเศษ"
+                  }
                 },
-                "required": ["username", "password"]
+                "required": [
+                  "username",
+                  "password"
+                ]
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "ลงชื่อเข้าใช้สำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }, "email": {"type": "string", "example": "admin@gmail.com"} } } } } },
-          "400": { "description": "ข้อมูลไม่ครบ", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "กรุณากรอก username และ password ให้ครบถ้วน!" } } } } } },
-          "401": { "description": "รหัสผ่านไม่ถูกต้อง", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "รหัสผ่านไม่ถูกต้อง!" } } } } } },
-          "404": { "description": "ไม่มี username", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "ไม่มี username นี้ในระบบ!" } } } } } },
-          "500": { "description": "ข้อผิดพลาดเซิร์ฟเวอร์", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "internal server errors" } } } } } }
+          "200": {
+            "description": "ลงชื่อเข้าใช้สำเร็จ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "admin@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลไม่ครบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "กรุณากรอก username และ password ให้ครบถ้วน!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "รหัสผ่านไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "รหัสผ่านไม่ถูกต้อง!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ไม่มี username",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี username นี้ในระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     "/api/auth/authVerifyOtp": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "ตรวจสอบ OTP",
         "description": "ตรวจสอบ Token และ OTP เพื่อยืนยันตัวตน",
         "requestBody": {
@@ -83,19 +233,90 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", "description": "Token จากการล็อกอิน" },
-                  "otp": { "type": "string", "example": "123456", "description": "รหัส OTP 6 หลักจากอีเมล" }
+                  "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "description": "Token จากการล็อกอิน"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "example": "123456",
+                    "description": "รหัส OTP 6 หลักจากอีเมล"
+                  }
                 },
-                "required": ["token", "otp"]
+                "required": [
+                  "token",
+                  "otp"
+                ]
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "ยืนยันตัวตนสำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Login successfully!" } } } } } },
-          "400": { "description": "OTP ไม่ถูกต้อง", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "OTP หมดอายุหรือไม่ถูกต้อง" } } } } } },
-          "401": { "description": "Token ไม่ถูกต้อง", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Token ไม่ถูกต้องหรือไม่มี Token ส่งมา" } } } } } },
-          "500": { "description": "ข้อผิดพลาดเซิร์ฟเวอร์", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "internal server errors" } } } } } }
+          "200": {
+            "description": "ยืนยันตัวตนสำเร็จ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Login successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "OTP ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "OTP หมดอายุหรือไม่ถูกต้อง"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token ไม่ถูกต้องหรือไม่มี Token ส่งมา"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

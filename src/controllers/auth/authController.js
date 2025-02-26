@@ -6,9 +6,9 @@ const {
     checkNationalIdBackOffice,
     checkNationalIdMedicalRecordAudit,
     addDataUser
-} = require("../models/authModel");
+} = require("../../models/authModel");
 const jwt = require("jsonwebtoken");
-const { msg } = require("../utils/message");
+const { msg } = require("../../utils/message");
 require("dotenv").config();
 const CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
