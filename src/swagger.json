@@ -63,7 +63,7 @@
           }
         },
         "responses": {
-          "200": { "description": "ลงชื่อเข้าใช้สำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }, "message": { "type": "string", "example": "Login successful" } } } } } },
+          "200": { "description": "ลงชื่อเข้าใช้สำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }, "email": {"type": "string", "example": "admin@gmail.com"} } } } } },
           "400": { "description": "ข้อมูลไม่ครบ", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "กรุณากรอก username และ password ให้ครบถ้วน!" } } } } } },
           "401": { "description": "รหัสผ่านไม่ถูกต้อง", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "รหัสผ่านไม่ถูกต้อง!" } } } } } },
           "404": { "description": "ไม่มี username", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "ไม่มี username นี้ในระบบ!" } } } } } },
