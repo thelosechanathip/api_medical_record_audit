@@ -92,7 +92,7 @@
           }
         },
         "responses": {
-          "200": { "description": "ยืนยันตัวตนสำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "OTP ยืนยันตัวตนสำเร็จ" } } } } } },
+          "200": { "description": "ยืนยันตัวตนสำเร็จ", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Login successfully!" } } } } } },
           "400": { "description": "OTP ไม่ถูกต้อง", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "OTP หมดอายุหรือไม่ถูกต้อง" } } } } } },
           "401": { "description": "Token ไม่ถูกต้อง", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Token ไม่ถูกต้องหรือไม่มี Token ส่งมา" } } } } } },
           "500": { "description": "ข้อผิดพลาดเซิร์ฟเวอร์", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "internal server errors" } } } } } }
