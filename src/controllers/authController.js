@@ -96,8 +96,8 @@ exports.authLogin = async (req, res) => {
             if (token) {
                 try {
                     return msg(res, 200, { 
-                        token,
-                        email: email 
+                        token
+                        // email: email 
                     }); // ส่ง OTP กลับไปยัง FrontEnd ด้วย
                 } catch (err) {
                     console.error("Error token:", err.message);
