@@ -1,0 +1,306 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Medical Record Audit API Documentation",
+      "version": "0.0.1",
+      "description": "เอกสาร API สำหรับการจัดการ Medical Record Audit แอปพลิเคชันที่ช่วยในการจัดระเบียบงานและติดตามงานที่ต้องทำ สามารถเพิ่ม, แก้ไข, ลบ และเรียกดูรายการงานได้"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3715/",
+        "description": "เซิร์ฟเวอร์ทดสอบในเครื่อง (localhost)"
+      }
+    ],
+    "tags": [
+      { 
+        "name": "Auth", 
+        "description": "Endpoints สำหรับการยืนยันตัวตนและการจัดการสิทธิ์การเข้าถึงข้อมูลในแอปพลิเคชัน เช่น การเข้าสู่ระบบ (Login) และการออกจากระบบ (Logout) โดยใช้ username, password หรือ token (เช่น JWT) เพื่อสร้างการเข้าถึงที่ปลอดภัยและจำกัดสิทธิ์การใช้งานของผู้ใช้"
+      }
+    ],
+    "paths": {
+      "/api/authRegister": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "Generate User จากโปรแกรม BackOffice",
+          "description": "เป็นการดึงข้อมูลที่มีอยู่แล้วของเจ้าหน้าที่โรงพยาบาลจากโปรแกรม BackOffice เข้ามายังโปรแกรม Medical Record Audit",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "national_id": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+                      "description": "กรอกเลขบัตรประจำตัวประชาชน 13 หลักที่มีการแปลงค่าแบบ cryptoJS เรียบร้อยแล้ว เพื่อดึงข้อมูลบุคคลนั้นๆ"
+                    }
+                  },
+                  "required": ["national_id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "เมื่อมีการดึงข้อมูลสำเร็จหรืออัพเดทข้อมูลสำเร็จ",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Update ข้อมูลเป็นปัจจุบันเสร็จสิ้น!! || Generate users successfully!!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "เมื่อไม่มีข้อมูลเจ้าหน้าที่บนระบบ BackOffice!",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "กรุณาตรวจสอบเลขบัตรประชาชนเพราะไม่มีข้อมูลในระบบ BackOffice!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "internal server errors"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/auth_login": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "เข้าสู่ระบบ",
+          "description": "ข้อมูลที่กรอกเข้ามาจะถูกตรวจสอบความถูกต้องตามข้อกำหนดที่กำหนดไว้ เช่น รหัสผ่านต้องประกอบด้วยตัวพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และอักขระพิเศษ โดยข้อมูลทุกฟิลด์ที่กำหนดเป็นฟิลด์บังคับจะต้องมีค่า",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string",
+                      "example": "admin",
+                      "description": "กรอกได้แค่ Username"
+                    },
+                    "password": { 
+                      "type": "string",
+                      "format": "password",
+                      "example": "P@ssw0rd!",
+                      "description": "รหัสผ่านต้องประกอบด้วยตัวพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และอักขระพิเศษ"
+                    }
+                  },
+                  "required": ["username", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ลงชื่อเข้าใช้สำเร็จ",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6..."
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "ลงชื่อเข้าใช้สำเร็จ / Login successful"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "ข้อมูลไม่ถูกต้อง เช่น ไม่มี Email ในระบบ!",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "ไม่มี Email ในระบบ!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "ข้อมูลไม่ถูกต้อง เช่น รหัสผ่านไม่ถูกต้องกรุณาตรวจสอบรหัสแล้วกรอกใหม่!",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "รหัสผ่านไม่ถูกต้องกรุณาตรวจสอบรหัสแล้วกรอกใหม่!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "ข้อมูลไม่ถูกต้อง เช่น ไม่มี Username ในระบบ!",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "ไม่มี Username ในระบบ!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "internal server errors"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/authVerifyOtp": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "ตรวจสอบ OTP",
+          "description": "ตรวจสอบ Token และ OTP ที่ส่งเข้ามา",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "otp": {
+                      "type": "string",
+                      "example": "123456",
+                      "description": "กรอกได้แค่ OTP ที่ส่งไปยัง Email และกรอกได้แค่ตัวเลขเท่านั้น!"
+                    }
+                  },
+                  "required": ["otp"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ยืนยันตัวตนสำเร็จ",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "OTP ยืนยันตัวตนสำเร็จ"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "ข้อมูลไม่ถูกต้อง เช่น OTP หมดอายุหรือไม่ถูกต้อง, OTP ไม่ถูกต้อง!",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "หมดอายุหรือไม่ถูกต้อง, OTP ไม่ถูกต้อง!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "ข้อมูลไม่ถูกต้อง เช่น ไม่มี Token ถูกส่งมา, ไม่มี Email ใน Token!",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "ไม่มี Token ถูกส่งมา, ไม่มี Email ใน Token!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "internal server errors"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
