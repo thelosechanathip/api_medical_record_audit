@@ -4,8 +4,9 @@ module.exports = {
             name: "api_medical_record_audit",
             script: "server.js",
             interpreter: "node",
-            watch: ["server.js", "routes"], // เฝ้าดู server.js และโฟลเดอร์ routes
-            ignore_watch: ["node_modules", "*.log"], // 忽略โฟลเดอร์/ไฟล์ที่ไม่ต้องการ
+            watch: ["server.js", "routes"],
+            ignore_watch: ["node_modules", "*.log"],
+            cwd: "/var/www/html/api_medical_record_audit", // ระบุโฟลเดอร์ทำงาน
             env: {
                 NODE_ENV: "production",
                 BASE_PATH: "api"
