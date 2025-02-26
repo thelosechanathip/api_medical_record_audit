@@ -130,7 +130,7 @@ exports.authVerifyOtp = async (req, res) => {
         if (!cachedOtp) return msg(res, 400, { message: "OTP หมดอายุหรือไม่ถูกต้อง" });
         if (cachedOtp === otpCode) {
             // OTP ถูกต้อง, อาจจะทำการสร้าง JWT หรือทำงานต่อ
-            return msg(res, 200, { message: "OTP ยืนยันตัวตนสำเร็จ" });
+            return msg(res, 200, { message: "Login successfully!" });
         } else {
             return msg(res, 400, { message: "OTP ไม่ถูกต้อง" });
         }
