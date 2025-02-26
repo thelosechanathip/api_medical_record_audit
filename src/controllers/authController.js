@@ -87,8 +87,8 @@ exports.authLogin = async (req, res) => {
             const email = fetchOneUserDataResult[0].email; // ดึง email จากฐานข้อมูล
             if (!email) return msg(res, 400, { message: "ไม่มี Email ในระบบ!" });
             const token = await jwt.sign(
-                { userId, email, expiresIn: "1m" }, // เพิ่ม email ลงไปใน payload ของ token
-                process.env.SECRET_KEY, { expiresIn: "1m" }
+                { userId, email, expiresIn: "1h" }, // เพิ่ม email ลงไปใน payload ของ token
+                process.env.SECRET_KEY, { expiresIn: "1h" }
             );            
             // สร้างและส่ง OTP ไปยัง Email
             const otpCode = generateOtp(email);  // เปลี่ยนจาก chatId เป็น email
