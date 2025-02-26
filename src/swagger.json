@@ -233,7 +233,9 @@
     },
     "/api/auth/authVerifyOtp": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "ตรวจสอบ OTP",
         "description": "ตรวจสอบ Token และ OTP เพื่อยืนยันตัวตน โดย Token ส่งผ่าน Header และ OTP ส่งผ่าน Body",
         "parameters": [
@@ -255,13 +257,15 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "otp": {
+                  "otpCode": {
                     "type": "string",
                     "example": "123456",
                     "description": "รหัส OTP 6 หลักจากอีเมล"
                   }
                 },
-                "required": ["otp"]
+                "required": [
+                  "otp"
+                ]
               }
             }
           }
@@ -341,14 +345,6 @@
         ],
         "summary": "สำหรับดึงข้อมูล typeSql",
         "description": "สำหรับดึงข้อมูลทั้งหมดของ typeSql",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "ดึงข้อมูลเสร็จสิ้น",
@@ -358,14 +354,37 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "json",
-                      "example": {
-                        "id": 1,
-                        "type_sql_name": "SELECT",
-                        "created_at": "2025-02-19T08:55:57.000Z",
-                        "created_by": "ADMIN",
-                        "updated_at": "2025-02-19T08:55:57.000Z",
-                        "updated_by": "ADMIN"
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "type_sql_name": {
+                            "type": "string",
+                            "example": "SELECT"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "created_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "updated_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          }
+                        }
                       }
                     }
                   }
@@ -408,7 +427,7 @@
         }
       }
     },
-    "/api/seting/addTypeSql": {
+    "/api/setting/addTypeSql": {
       "post": {
         "tags": [
           "Setting"
@@ -453,7 +472,7 @@
                   "type": "object",
                   "properties": {
                     "message": {
-                      "type": "json",
+                      "type": "string",
                       "example": "บันทึกข้อมูลเสร็จสิ้น!"
                     }
                   }
@@ -462,7 +481,7 @@
             }
           },
           "400": {
-            "description": "ไม่มีข้อมูล",
+            "description": "ข้อมูลไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -470,7 +489,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -496,13 +515,25 @@
         }
       }
     },
-    "/api/seting/updateTypeSql/:id": {
+    "/api/setting/updateTypeSql/{id}": {
       "put": {
         "tags": [
           "Setting"
         ],
         "summary": "สำหรับอัพเดทข้อมูล typeSql",
         "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ typeSql",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ typeSql ที่ต้องการอัพเดท"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -510,10 +541,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "integer",
-                    "example": "1"
-                  },
                   "type_sql_name": {
                     "type": "string",
                     "example": "DELETE"
@@ -524,7 +551,6 @@
                   }
                 },
                 "required": [
-                  "id",
                   "type_sql_name",
                   "updated_by"
                 ]
@@ -541,7 +567,7 @@
                   "type": "object",
                   "properties": {
                     "message": {
-                      "type": "json",
+                      "type": "string",
                       "example": "อัพเดทข้อมูลเสร็จสิ้น!"
                     }
                   }
@@ -550,7 +576,7 @@
             }
           },
           "400": {
-            "description": "ไม่มีข้อมูล",
+            "description": "ข้อมูลไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -558,7 +584,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -590,15 +616,7 @@
           "Log"
         ],
         "summary": "การจัดการ Log",
-        "description": "การจัดการ Log ต่างๆของ Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              
-            }
-          }
-        },
+        "description": "ลบ Log ทั้งหมดใน Database",
         "responses": {
           "200": {
             "description": "Clear Log เสร็จสิ้น",
