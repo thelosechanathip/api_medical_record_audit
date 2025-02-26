@@ -94,17 +94,17 @@ exports.removeDataTypeSql = async (req, res) => {
         // Check ว่ามี ID นี้อยู่ในระบบหรือไม่?
         const checkIdTypeSqlDataResult = await checkIdTypeSqlData(id);
         if (!checkIdTypeSqlDataResult) {
-            return msg(res, 400, 'ไม่มี (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบ!');
+            return msg(res, 404, { message: 'ไม่มี (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบ!' });
         }
 
         const removeTypeSqlDataResult = await removeTypeSqlData(id, req.body);
         if (removeTypeSqlDataResult) {
-            return msg(res, 200, 'ลบข้อมูลเสร็จสิ้น!');
+            return msg(res, 200, { message: 'ลบข้อมูลเสร็จสิ้น!' });
         } else {
-            return msg(res, 400, 'ลบข้อมูลไม่สำเร็จ!');
+            return msg(res, 400, { message: 'ลบข้อมูลไม่สำเร็จ!' });
         }
     }catch(err) {
         console.log(err);
-        return msg(res, 500, err);
+        return msg(res, 500, { message: err });
     }
 }

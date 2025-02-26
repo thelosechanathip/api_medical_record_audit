@@ -59,7 +59,7 @@
         },
         "responses": {
           "200": {
-            "description": "ดึงข้อมูลสำเร็จ",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
@@ -75,7 +75,7 @@
             }
           },
           "400": {
-            "description": "ไม่มีข้อมูลใน BackOffice",
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -145,7 +145,7 @@
         },
         "responses": {
           "200": {
-            "description": "ลงชื่อเข้าใช้สำเร็จ",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
@@ -165,7 +165,7 @@
             }
           },
           "400": {
-            "description": "ข้อมูลไม่ครบ",
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -181,7 +181,7 @@
             }
           },
           "401": {
-            "description": "รหัสผ่านไม่ถูกต้อง",
+            "description": "ต้องยืนยันตัวตน",
             "content": {
               "application/json": {
                 "schema": {
@@ -197,7 +197,7 @@
             }
           },
           "404": {
-            "description": "ไม่มี username",
+            "description": "Resource ไม่พบ",
             "content": {
               "application/json": {
                 "schema": {
@@ -272,7 +272,7 @@
         },
         "responses": {
           "200": {
-            "description": "ยืนยันตัวตนสำเร็จ",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
@@ -288,7 +288,7 @@
             }
           },
           "400": {
-            "description": "OTP ไม่ถูกต้อง",
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -304,7 +304,7 @@
             }
           },
           "401": {
-            "description": "Token ไม่ถูกต้อง",
+            "description": "ต้องยืนยันตัวตน",
             "content": {
               "application/json": {
                 "schema": {
@@ -347,7 +347,7 @@
         "description": "สำหรับดึงข้อมูลทั้งหมดของ typeSql",
         "responses": {
           "200": {
-            "description": "ดึงข้อมูลเสร็จสิ้น",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
@@ -393,7 +393,7 @@
             }
           },
           "404": {
-            "description": "ไม่มีข้อมูล",
+            "description": "Resource ไม่พบ",
             "content": {
               "application/json": {
                 "schema": {
@@ -465,7 +465,7 @@
         },
         "responses": {
           "200": {
-            "description": "บันทึกข้อมูลเสร็จสิ้น",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
@@ -481,7 +481,7 @@
             }
           },
           "400": {
-            "description": "ข้อมูลไม่ถูกต้อง",
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -560,7 +560,7 @@
         },
         "responses": {
           "200": {
-            "description": "อัพเดทข้อมูลเสร็จสิ้น",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
@@ -576,7 +576,7 @@
             }
           },
           "400": {
-            "description": "ข้อมูลไม่ถูกต้อง",
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
             "content": {
               "application/json": {
                 "schema": {
@@ -585,6 +585,101 @@
                     "message": {
                       "type": "string",
                       "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/deleteTypeSql/{id}": {
+      "delete": {
+        "tags": [
+          "Setting"
+        ],
+        "summary": "สำหรับลบข้อมูล typeSql",
+        "description": "สำหรับลบข้อมูลทั้งหมดของ typeSql",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ typeSql ที่ต้องการลบ"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ลบข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบ!"
                     }
                   }
                 }
@@ -619,7 +714,7 @@
         "description": "ลบ Log ทั้งหมดใน Database",
         "responses": {
           "200": {
-            "description": "Clear Log เสร็จสิ้น",
+            "description": "ความสำเร็จทั่วไป",
             "content": {
               "application/json": {
                 "schema": {
