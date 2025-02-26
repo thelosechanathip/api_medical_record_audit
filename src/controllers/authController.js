@@ -95,7 +95,10 @@ exports.authLogin = async (req, res) => {
             await sendEmail(email, otpCode); // ส่ง OTP ไปยังอีเมล์
             if (token) {
                 try {
-                    return msg(res, 200, { token, email: email }); // ส่ง OTP กลับไปยัง FrontEnd ด้วย
+                    return msg(res, 200, { 
+                        token
+                        // email: email 
+                    }); // ส่ง OTP กลับไปยัง FrontEnd ด้วย
                 } catch (err) {
                     console.error("Error token:", err.message);
                     return msg(res, 500, { message: "Internal Server Error" });
