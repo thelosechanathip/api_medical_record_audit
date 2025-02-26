@@ -6,7 +6,7 @@ const {
     checkNationalIdBackOffice,
     checkNationalIdMedicalRecordAudit,
     addDataUser
-} = require("../../models/authModel");
+} = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
 const { msg } = require("../../utils/message");
 require("dotenv").config();
@@ -74,22 +74,24 @@ exports.authLogin = async (req, res) => {
         const { username } = req.body;
         // ตรวจสอบว่า username มีอยู่ในระบบหรือไม่
         const checkUsernameDataResult = await checkUsernameData(username);
-        if (!checkUsernameDataResult)
-            return msg(res, 404, { message: "ไม่มี Username ในระบบ!" });
+        if (!checkUsernameDataResult) return msg(res, 404, { message: "ไม่มี Username ในระบบ!" });
+            
         // ตรวจสอบว่ารหัสผ่านถูกต้องหรือไม่
         const checkPasswordDataResult = await checkPasswordData(req.body);
-        if (checkPasswordDataResult === false)
-            return msg(res, 401, { message: "รหัสผ่านไม่ถูกต้องกรุณาตรวจสอบรหัสแล้วกรอกใหม่!" });
+        if (checkPasswordDataResult === false) return msg(res, 401, { message: "รหัสผ่านไม่ถูกต้องกรุณาตรวจสอบรหัสแล้วกรอกใหม่!" });
+            
         // ดึงข้อมูลผู้ใช้หลังจากตรวจสอบผ่านแล้ว
         const fetchOneUserDataResult = await fetchOneUserData(username);
         if (fetchOneUserDataResult) {
             const userId = fetchOneUserDataResult[0].id;
             const email = fetchOneUserDataResult[0].email; // ดึง email จากฐานข้อมูล
             if (!email) return msg(res, 400, { message: "ไม่มี Email ในระบบ!" });
+
             const token = await jwt.sign(
                 { userId, email, expiresIn: "1h" }, // เพิ่ม email ลงไปใน payload ของ token
                 process.env.SECRET_KEY, { expiresIn: "1h" }
             );            
+
             // สร้างและส่ง OTP ไปยัง Email
             const otpCode = generateOtp(email);  // เปลี่ยนจาก chatId เป็น email
             await sendEmail(email, otpCode); // ส่ง OTP ไปยังอีเมล์
@@ -120,14 +122,18 @@ exports.authVerifyOtp = async (req, res) => {
     try {
         // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        if (!decoded) return msg(res, 500, false);
+        if (!decoded) return msg(res, 500, { message: false });
+
         const { otpCode } = req.body;
         // ตรวจสอบว่า decoded.email มีค่าหรือไม่
+
         const email = decoded.email; // ดึง email จาก decoded
         if (!email) return msg(res, 401, { message: 'ไม่มี Email ใน Token' });
         // ตรวจสอบ OTP ที่กรอกเข้ามาว่าถูกต้องหรือไม่
+
         const cachedOtp = otpCache.get(email); // ใช้ email จาก decoded
         if (!cachedOtp) return msg(res, 400, { message: "OTP หมดอายุหรือไม่ถูกต้อง" });
+        
         if (cachedOtp === otpCode) {
             // OTP ถูกต้อง, อาจจะทำการสร้าง JWT หรือทำงานต่อ
             return msg(res, 200, { message: "Login successfully!" });

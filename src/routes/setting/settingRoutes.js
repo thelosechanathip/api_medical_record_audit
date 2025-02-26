@@ -4,8 +4,8 @@ const { getAlldataTypeSql, addDataTypeSql, updateDataTypeSql, removeDataTypeSql 
 
 // @ENDPOINT = http://localhost:3715/api_m/
 router.get('/typeSql', getAlldataTypeSql);
-router.post('/typeSql', addDataTypeSql);
-router.put('/typeSql/:id', updateDataTypeSql);
-router.delete('/typeSql/:id', removeDataTypeSql);
+router.post('/addTypeSql', addDataTypeSql);
+router.put('/updateTypeSql/:id', updateDataTypeSql);
+router.delete('/removeTypeSql/:id', removeDataTypeSql);
 
 module.exports = router;

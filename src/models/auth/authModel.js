@@ -1,5 +1,5 @@
-const db_b = require('../config/db_b');
-const db_m = require('../config/db_m');
+const db_b = require('../../config/db_b');
+const db_m = require('../../config/db_m');
 const bcrypt = require('bcryptjs');
 
 // ตรวจสอบ Username บน Database = Medical Record Audit ใน Table = users

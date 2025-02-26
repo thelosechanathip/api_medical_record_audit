@@ -7,6 +7,10 @@
   },
   "servers": [
     {
+      "url": "http://10.10.10.25:3715/",
+      "description": "เซิร์ฟเวอร์หลัก"
+    },
+    {
       "url": "http://localhost:3715/",
       "description": "เซิร์ฟเวอร์ทดสอบในเครื่อง (localhost)"
     }
@@ -15,6 +19,14 @@
     {
       "name": "Auth",
       "description": "Endpoints สำหรับการยืนยันตัวตนและการจัดการสิทธิ์ เช่น Login, Logout"
+    },
+    {
+      "name": "Setting",
+      "description": "Endpoints สำหรับการจัดการตั้งค่าต่างๆ"
+    },
+    {
+      "name": "Log",
+      "description": "Endpoints สำหรับการจัดการ Log"
     }
   ],
   "paths": {
@@ -221,11 +233,21 @@
     },
     "/api/auth/authVerifyOtp": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "ตรวจสอบ OTP",
-        "description": "ตรวจสอบ Token และ OTP เพื่อยืนยันตัวตน",
+        "description": "ตรวจสอบ Token และ OTP เพื่อยืนยันตัวตน โดย Token ส่งผ่าน Header และ OTP ส่งผ่าน Body",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -233,21 +255,13 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                    "description": "Token จากการล็อกอิน"
-                  },
                   "otp": {
                     "type": "string",
                     "example": "123456",
                     "description": "รหัส OTP 6 หลักจากอีเมล"
                   }
                 },
-                "required": [
-                  "token",
-                  "otp"
-                ]
+                "required": ["otp"]
               }
             }
           }
@@ -295,6 +309,307 @@
                     "message": {
                       "type": "string",
                       "example": "Token ไม่ถูกต้องหรือไม่มี Token ส่งมา"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/typeSql": {
+      "get": {
+        "tags": [
+          "Setting"
+        ],
+        "summary": "สำหรับดึงข้อมูล typeSql",
+        "description": "สำหรับดึงข้อมูลทั้งหมดของ typeSql",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ดึงข้อมูลเสร็จสิ้น",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "json",
+                      "example": {
+                        "id": 1,
+                        "type_sql_name": "SELECT",
+                        "created_at": "2025-02-19T08:55:57.000Z",
+                        "created_by": "ADMIN",
+                        "updated_at": "2025-02-19T08:55:57.000Z",
+                        "updated_by": "ADMIN"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ไม่มีข้อมูล",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seting/addTypeSql": {
+      "post": {
+        "tags": [
+          "Setting"
+        ],
+        "summary": "สำหรับบันทึกข้อมูล typeSql",
+        "description": "สำหรับบันทึกข้อมูลทั้งหมดของ typeSql",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type_sql_name": {
+                    "type": "string",
+                    "example": "DELETE"
+                  },
+                  "created_by": {
+                    "type": "string",
+                    "example": "ADMIN"
+                  },
+                  "updated_by": {
+                    "type": "string",
+                    "example": "ADMIN"
+                  }
+                },
+                "required": [
+                  "type_sql_name",
+                  "created_by",
+                  "updated_by"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "บันทึกข้อมูลเสร็จสิ้น",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "json",
+                      "example": "บันทึกข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ไม่มีข้อมูล",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seting/updateTypeSql/:id": {
+      "put": {
+        "tags": [
+          "Setting"
+        ],
+        "summary": "สำหรับอัพเดทข้อมูล typeSql",
+        "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ typeSql",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": "1"
+                  },
+                  "type_sql_name": {
+                    "type": "string",
+                    "example": "DELETE"
+                  },
+                  "updated_by": {
+                    "type": "string",
+                    "example": "ADMIN"
+                  }
+                },
+                "required": [
+                  "id",
+                  "type_sql_name",
+                  "updated_by"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "อัพเดทข้อมูลเสร็จสิ้น",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "json",
+                      "example": "อัพเดทข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ไม่มีข้อมูล",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/log/clearLog": {
+      "delete": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "การจัดการ Log",
+        "description": "การจัดการ Log ต่างๆของ Database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Clear Log เสร็จสิ้น",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Clear log successfully!!"
                     }
                   }
                 }

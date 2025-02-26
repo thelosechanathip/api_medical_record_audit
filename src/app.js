@@ -7,6 +7,7 @@ const cors = require("cors"); // นำเข้า CORS เพื่ออน�
 const { readdirSync } = require("fs"); // นำเข้า readdirSync จากโมดูล fs เพื่ออ่านไฟล์ในโฟลเดอร์แบบ synchronously
 const fs = require("fs"); // นำเข้าโมดูล fs (File System) เพื่อจัดการไฟล์และโฟลเดอร์
 const path = require("path"); // นำเข้าโมดูล path เพื่อจัดการเส้นทางไฟล์และโฟลเดอร์
+const { apiReference } = require("@scalar/express-api-reference");
 require('dotenv').config(); // นำเข้าและตั้งค่า dotenv เพื่อโหลดตัวแปร環境จากไฟล์ .env
 
 // สร้าง instance ของ Express application
@@ -22,7 +23,24 @@ app.use(express.json());
 // ทำให้สามารถเข้าถึงข้อมูลจาก req.body ได้
 app.use(cors());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 
+app.get(
+  '/',
+  apiReference({
+    theme: 'deepSpace',
+    spec: {
+      url: '/api/docs/swagger',
+    },
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+    }
+  })
+);
+  
+app.get('/api/docs/swagger', (req, res) => {
+res.sendFile(__dirname + '/swagger.json');
+});
 // ตั้งค่า Swagger UI ให้ทำงานที่เส้นทาง /api-docs 
 // swaggerUi.serve เริ่มต้น UI และ swaggerUi.setup(swaggerDocument) โหลดข้อมูล API จาก swagger.json
 
