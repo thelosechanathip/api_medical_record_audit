@@ -7,6 +7,7 @@ const cors = require("cors");
 const { readdirSync } = require("fs");
 const fs = require("fs");
 const path = require("path");
+const { authAdmin } = require('../src/middleware/auth/authAdmin');
 require('dotenv').config();
 
 // สร้าง instance ของ Express application
@@ -16,6 +17,10 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
+
+// app.get('/test', authAdmin, (req, res) => {
+//   return res.status(200).json({ message: 'Welcome to test!!' });
+// });
 
 // โหลด apiReference แบบ dynamic import
 app.get('/', async (req, res, next) => {

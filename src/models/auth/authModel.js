@@ -76,9 +76,8 @@ exports.checkNationalIdBackOffice = async (national_id) => {
     }
 };
 
-exports.checkNationalIdMedicalRecordAudit = async (data) => {
+exports.checkNationalIdMedicalRecordAudit = async (national_id) => {
     try {
-        const { national_id } = data;
         const [checkNationalIdResult] = await db_m.query('SELECT id FROM users WHERE national_id = ?', [national_id]);
         if(checkNationalIdResult.length === 0)  return false;
 

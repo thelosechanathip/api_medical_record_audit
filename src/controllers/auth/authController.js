@@ -53,7 +53,7 @@ exports.authRegister = async (req, res) => {
 
         // ตรวจสอบเลขบัตรประชาชนที่ส่งเข้ามาก่อนว่ามีการสร้างข้อมูลในระบบ BackOffice หรือยัง หรือได้เป็นเจ้าหน้าที่ในโรงพยาบาลหรือไม่
         const checkNationalIdBackOfficeResult = await checkNationalIdBackOffice(national_id);
-        if (!checkNationalIdBackOfficeResult) return msg(res, 400, { message: 'กรุณาตรวจสอบเลขบัตรประชาชนเพราะไม่มีข้อมูลในระบบ BackOffice' });
+        if (checkNationalIdBackOfficeResult === false) return msg(res, 400, { message: 'กรุณาตรวจสอบเลขบัตรประชาชนเพราะไม่มีข้อมูลในระบบ BackOffice' });
 
         // ตรวจสอบว่าเคยมีข้อมูลในระบบแล้วหรือยัง
         const checkNationalIdMedicalRecordAuditResult = await checkNationalIdMedicalRecordAudit(national_id);
