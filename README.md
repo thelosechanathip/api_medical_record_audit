@@ -1,18 +1,22 @@
-API Medical Record Audit
-( API นี้ใช้แค่บันทึกข้อมูลในส่วนของแบบปประเมินคุณภาพการบันทึกเวชระเบียนผู้ป่วย )
+# API Medical Record Audit
 
-### ติดตั้งแพ็กเกจ( Installation )
+API นี้ใช้สำหรับบันทึกข้อมูลในส่วนของแบบประเมินคุณภาพการบันทึกเวชระเบียนผู้ป่วย
 
-git clone https://github.com/thelosechanathip/api_medical_record_audit.git
-cd api_medical_record_audit
-npm install
+## การติดตั้ง (Installation)
 
-### โครงสร้างไฟล์
+1. โคลนรีโพซิทอรี:
+    ```bash
+    git clone https://github.com/thelosechanathip/api_medical_record_audit.git
+2. เข้าไปยังไดเรกทอรีของโปรเจกต์:
+    cd api_medical_record_audit
+3. ติดตั้งแพ็กเกจที่จำเป็น:
+    npm install
 
-/medical_record_audit
-|-src
-|-ecosystem.config.js
-|-package-lock.json
-|-package.json
-|-README.md
-|-server.js
+โครงสร้างไฟล์ (File Structure)
+    /medical_record_audit
+    |-- src/
+    |-- ecosystem.config.js
+    |-- package-lock.json
+    |-- package.json
+    |-- README.md
+    |-- server.js
