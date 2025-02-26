@@ -20,12 +20,12 @@ app.use(express.json());
 app.use(cors());
 
 // โหลด apiReference แบบ dynamic import
-app.get('/:text', authAdmin, async (req, res, next) => {
+app.get('/avenger/spiderman/ironmane/hulk/thor/cap/:text', authAdmin, async (req, res, next) => {
   const { apiReference } = await import('@scalar/express-api-reference');
   apiReference({
     theme: 'deepSpace',
     spec: {
-      url: '/api/docs/swagger',
+      url: '/api/docs/swagger/U2FsdGVkX1%2FE81uLj0Q02UruaOr7cH0nNTCN9SZg5fV58N2iSak7wDYCmosS4fd4',
     },
     headers: {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -35,7 +35,7 @@ app.get('/:text', authAdmin, async (req, res, next) => {
   })(req, res, next);
 });
 
-app.get('/api/docs/swagger', (req, res) => {
+app.get('/api/docs/swagger/:text', authAdmin, async(req, res) => {
   res.sendFile(__dirname + '/swagger.json');
 });
 
