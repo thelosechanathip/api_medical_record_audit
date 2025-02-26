@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style>
+        /* Animation สำหรับไฟกระพริบ */
+        @keyframes sparkle {
+        0% { background-position: 0 0; }
+        100% { background-position: 100% 100%; }
+        }
+
+        .sparkle-bg {
+        background: linear-gradient(
+            45deg,
+            #ff0000, /* สีแดง */
+            #00ff00, /* สีเขียว */
+            #0000ff, /* สีน้ำเงิน */
+            #ffff00, /* สีเหลือง */
+            #ff00ff, /* สีม่วง */
+            #00ffff  /* สีฟ้า */
+        );
+        background-size: 200% 200%;
+        animation: sparkle 3s infinite alternate;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex justify-center items-center min-h-screen sparkle-bg">
+        <h1 class="text-3xl font-bold underline text-white bg-black p-5 rounded rounded-5">
+            ไม่มีหน้านี้อยู่จริงค้าบบบบ!!!!
+        </h1>
+    </div>
+</body>
+</html>
