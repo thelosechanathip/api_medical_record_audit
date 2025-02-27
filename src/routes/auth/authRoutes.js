@@ -9,6 +9,6 @@ router.post('/authLogin', authLogin);
 router.post('/authVerifyOtp', authVerifyOtp);
 router.post('/authVerifyToken', authCheckToken, authVerifyToken);
 router.delete('/authRemoveUser/:id', authCheckToken, authAdminSetting, authRemoveUser);
-router.post('/authLogout', authLogout);
+router.post('/authLogout', authCheckToken, authLogout);
 
 module.exports = router;

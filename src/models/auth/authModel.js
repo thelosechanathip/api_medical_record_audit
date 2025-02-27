@@ -245,3 +245,23 @@ exports.removeUser = async (id) => {
         throw new Error("Failed to delete user data");
     }
 }
+
+// เพิ่มข้อมูลไปยัง log_login_logout เมื่อมีการ Logout ออกจากระบบ
+exports.addLogLogout = async (id) => {
+    try {
+        const [userDataResult] = await db_m.query('SELECT username FROM users WHERE id = ?', [id]);
+        
+        const [addLogLogoutResult] = await db_m.query(
+            `
+                INSERT INTO log_login_logout (doing_what, created_by, updated_by)
+                VALUES(?, ?, ?)
+            `,
+            ['Logout( ออกจากระบบ )', userDataResult[0].username, userDataResult[0].username]
+        );
+
+        return addLogLogoutResult.affectedRows > 0;
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to add Log Logout data");
+    }
+}

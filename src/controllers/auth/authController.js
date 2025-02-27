@@ -7,7 +7,8 @@ const {
     addDataUser,
     fetchOneUser,
     checkUserId,
-    removeUser
+    removeUser,
+    addLogLogout
 } = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -205,14 +206,23 @@ exports.authRemoveUser = async(req, res) => {
 // Function สำหรับการ Logout ออกจากระบบ
 exports.authLogout = async (req, res) => {
     try {
+        const addLogLogoutResult = await addLogLogout(req.user[0].id);
+
+        if(!addLogLogoutResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!");
+
         if(statusOtp.valid != true) {
             return msg(res, 200, { message: "Logout successfully!" });
         } else {
             statusOtp.valid = false;
             return msg(res, 200, { message: "Logout successfully!" });
         }
-    } catch(err) {
-        console.error(err.message);
-        return msg(res, 500, 'Internel server errors');
+    } catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            return msg(res, 401, 'TokenExpiredError!');
+        } else if (err.name === 'JsonWebTokenError') {
+            return msg(res, 401, 'JsonWebTokenError!');
+        }
+        console.error('Error verifying token:', err);
+        return msg(res, 500, 'Internal Server Error');
     }
 }

@@ -13,10 +13,13 @@ exports.authCheckToken = async (req, res, next) => {
     try {
         // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        if (!decoded) return msg(res, 500, { message: false });
+        if (!decoded) return msg(res, 400, { message: false });
 
         const { valid } = statusOtp;
         if(valid === false || valid === '') return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+
+        const [fetchOneStatusUserResult] = await db_m.query('SELECT id, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
+        req.user = fetchOneStatusUserResult;
 
         next();
     } catch (err) {
@@ -65,7 +68,7 @@ exports.authAdminSetting = async(req, res, next) => {
     try {
         // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        if (!decoded) return msg(res, 500, { message: false });
+        if (!decoded) return msg(res, 400, { message: "Token ไม่ถูกต้อง!" });
 
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         if(fetchOneStatusUserResult[0].status != "ADMIN") return msg(res, 400, "ไม่มีสิทธิ์ใช้งาน Function นี้!!");
