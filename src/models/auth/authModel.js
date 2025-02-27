@@ -61,7 +61,7 @@ exports.fetchOneUserData = async (username) => {
     }
 }
 
-// Check { national_id } บน Database = badkoffice ใน Table = users
+// Check { national_id } บน Database = backoffice ใน Table = users
 exports.checkNationalIdBackOffice = async (national_id) => {
     try {
         const [rows] = await db_b.query(
@@ -76,6 +76,7 @@ exports.checkNationalIdBackOffice = async (national_id) => {
     }
 };
 
+// Check { national_id } บน Database = medical_record_audit ใน Table = users
 exports.checkNationalIdMedicalRecordAudit = async (national_id) => {
     try {
         const [checkNationalIdResult] = await db_m.query('SELECT id FROM users WHERE national_id = ?', [national_id]);
@@ -138,6 +139,7 @@ exports.checkNationalIdMedicalRecordAudit = async (national_id) => {
     }
 }
 
+// บันทึกข้อมูล
 exports.addDataUser = async (national_id) => {
     try {
         const [fetchDataFirst] = await db_b.query(
@@ -194,5 +196,41 @@ exports.addDataUser = async (national_id) => {
     } catch (err) {
         console.error("Database error:", err.message);
         throw new Error("Failed to add user data");
+    }
+}
+
+// ดึงข้อมูลแค่ 1 record
+exports.fetchOneUser = async (id) => {
+    try {
+        const [result] = await db_m.query('SELECT fullname, position, department FROM users WHERE id = ?', [id]);
+        return result;
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to fetch user data");
+    }
+}
+
+// ลบข้อมูล
+exports.removeUser = async (id) => {
+    try {
+        // ลบข้อมูลจากตาราง users
+        const [deleteResult] = await db_m.query('DELETE FROM users WHERE id = ?', [id]);
+
+        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
+        if (deleteResult.affectedRows > 0) {
+            // หาค่า MAX(id) จากตาราง users เพื่อคำนวณค่า AUTO_INCREMENT ใหม่
+            const [maxIdResult] = await db_m.query('SELECT MAX(id) AS maxId FROM users');
+            const nextAutoIncrement = (maxIdResult[0].maxId || 0) + 1;
+
+            // รีเซ็ตค่า AUTO_INCREMENT
+            await db_m.query('ALTER TABLE users AUTO_INCREMENT = ?', [nextAutoIncrement]);
+
+            return true; // ส่งค่ากลับเพื่อบอกว่าการลบและรีเซ็ตสำเร็จ
+        }
+
+        return false; // หากไม่มีข้อมูลถูกลบ
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to delete user data");
     }
 }

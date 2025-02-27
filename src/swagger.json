@@ -338,6 +338,122 @@
         }
       }
     },
+    "/api/auth/authVerifyToken": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "ตรวจสอบ Token",
+        "description": "ตรวจสอบ Token เพื่อยืนยันตัวตน โดย Token ส่งผ่าน Header",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "fullname": {
+                          "type": "string",
+                          "example": "นายดำ ขำแห้ง"
+                        },
+                        "position": {
+                          "type": "string",
+                          "example": "ตำแหน่งนักดำน้ำใต้โลก"
+                        },
+                        "department": {
+                          "type": "string",
+                          "example": "แผนกรักป่ารักเขา"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token ไม่ถูกต้องกรุณาตรวจสอบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token ไม่ถูกต้องหรือไม่มี Token ส่งมา!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No data found!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/setting/typeSql": {
       "get": {
         "tags": [

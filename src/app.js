@@ -7,7 +7,7 @@ const cors = require("cors");
 const { readdirSync } = require("fs");
 const fs = require("fs");
 const path = require("path");
-const { authAdmin } = require('../src/middleware/auth/authAdmin');
+const { authAdminDoc } = require('./middleware/auth/authAdmin');
 const { msg } = require('../src/utils/message');
 require('dotenv').config();
 
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cors());
 
 // โหลด apiReference แบบ dynamic import
-app.get('/avenger/spiderman/ironmane/hulk/thor/cap/:text', authAdmin, async (req, res, next) => {
+app.get('/avenger/spiderman/ironmane/hulk/thor/cap/:text', authAdminDoc, async (req, res, next) => {
   const { apiReference } = await import('@scalar/express-api-reference');
   apiReference({
     theme: 'deepSpace',
@@ -35,7 +35,7 @@ app.get('/avenger/spiderman/ironmane/hulk/thor/cap/:text', authAdmin, async (req
   })(req, res, next);
 });
 
-app.get('/api/docs/swagger/:text', authAdmin, async(req, res) => {
+app.get('/api/docs/swagger/:text', authAdminDoc, async(req, res) => {
   res.sendFile(__dirname + '/swagger.json');
 });
 

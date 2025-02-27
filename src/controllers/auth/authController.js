@@ -4,9 +4,12 @@ const {
     fetchOneUserData,
     checkNationalIdBackOffice,
     checkNationalIdMedicalRecordAudit,
-    addDataUser
+    addDataUser,
+    fetchOneUser,
+    removeUser
 } = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 const { msg } = require("../../utils/message");
 require("dotenv").config();
 const CryptoJS = require("crypto-js");
@@ -116,6 +119,7 @@ exports.authLogin = async (req, res) => {
 exports.authVerifyOtp = async (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) return msg(res, 401, { message: 'ไม่มี Token ถูกส่งมา' });
+
     const token = authHeader.split(' ')[1];
     
     try {
@@ -144,3 +148,46 @@ exports.authVerifyOtp = async (req, res) => {
         return msg(res, 500, { message: "Internal Server Error" });
     }
 };
+
+// Function ยืนยันตัวตนด้วย Token
+exports.authVerifyToken = async (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return msg(res, 401, { message: 'Token ไม่ถูกต้องหรือไม่มี Token ส่งมา!' });
+
+    const token = authHeader.split(' ')[1];
+    try {
+        // Verify token
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        if (!decoded) return msg(res, 400, { message: 'Token ไม่ถูกต้องกรุณาตรวจสอบ!' });
+
+        const fetchOneUserResult = await fetchOneUser(decoded.userId);
+        if (!Array.isArray(fetchOneUserResult) || fetchOneUserResult.length === 0) {
+            return msg(res, 404, { message: "No data found" });
+        }
+        return msg(res, 200, { data: fetchOneUserResult[0] });
+    } catch (error) {
+        console.error("Error verify OTP:", error.message);
+        return msg(res, 500, { message: "Internal Server Errors" });
+    }
+}
+
+// Function สำหรับ Remove User ออกจาก Database => medical_record_audit
+exports.authRemoveUser = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const { password } = req.body;
+        const hashedPassword = req.password;
+        const isMath = await bcrypt.compare(password, hashedPassword);
+        if(isMath === false) return msg(res, 400, "คุณไม่มีสิทธิ์ในการลบข้อมูล!");
+
+        const removeUserResult = await removeUser(id);
+        if(removeUserResult) {
+            return msg(res, 200, { message: 'ลบข้อมูลเสร็จสิ้น!' });
+        } else {
+            return msg(res, 400, { message: 'ลบข้อมูลไม่สำเร็จ!' });
+        }
+    } catch(err) {
+        console.error(err.message);
+        return msg(res, 500, 'Internel server errors');
+    }
+}
