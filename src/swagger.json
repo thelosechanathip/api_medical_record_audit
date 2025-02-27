@@ -530,7 +530,50 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "คุณไม่มีสิทธิ์ในการลบข้อมูล! || ลบข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่สามารถลบ User ตัวเราเองในขณะที่อยู่ในระบบได้! || ไม่มี User นี้ในระบบกรุณาตรวจสอบ!! || คุณไม่มีสิทธิ์ในการลบข้อมูล! || ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/authLogout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout ออกจากระบบ",
+        "description": "Logout ออกจากระบบ และมีการตรวจสอบ Token เพื่อยืนยันตัวตน โดย Token ส่งผ่าน Header ว่าต้องเป็น ADMIN เท่านั้นก่อนที่จะมีการลบข้อมูล",
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "example": "Logout successfully!"
                     }
                   }
                 }

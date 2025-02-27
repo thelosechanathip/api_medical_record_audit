@@ -2,6 +2,33 @@ const db_m = require('../../config/db_m');
 const CryptoJS = require("crypto-js");
 const { msg } = require('../../utils/message');
 const jwt = require("jsonwebtoken");
+const { statusOtp } = require('../../utils/statusOtp');
+
+// สำหรับตรวจสอบสิทธิ์การเข้าใช้งานระบบโดยทั่วไป
+exports.authCheckToken = async (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return msg(res, 401, { message: 'ไม่มี Token ถูกส่งมา' });
+
+    const token = authHeader.split(' ')[1];
+    try {
+        // Verify token
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        if (!decoded) return msg(res, 500, { message: false });
+
+        const { valid } = statusOtp;
+        if(valid === false || valid === '') return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+
+        next();
+    } catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            return msg(res, 401, false);
+        } else if (err.name === 'JsonWebTokenError') {
+            return msg(res, 401, false);
+        }
+        console.error('Error verifying token:', err);
+        return msg(res, 500, 'Internal Server Error');
+    }
+};
 
 // สำหรับตรวจสอบสิทธิ์การเข้าใช้งาน Document API
 exports.authAdminDoc = async (req, res, next) => {
@@ -40,14 +67,19 @@ exports.authAdminSetting = async(req, res, next) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 500, { message: false });
 
-        const [fetchOneStatusUserResult] = await db_m.query('SELECT password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
+        const [fetchOneStatusUserResult] = await db_m.query('SELECT id, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         if(fetchOneStatusUserResult[0].status != "ADMIN") return msg(res, 400, "ไม่มีสิทธิ์ใช้งาน Function นี้!!");
 
-        req.password = fetchOneStatusUserResult[0].password;
+        req.user = fetchOneStatusUserResult;
 
         next();
-    } catch(err) {
-        console.log(err.message);
-        return msg(res, 500, 'Internal server errors');
+    } catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            return msg(res, 401, false);
+        } else if (err.name === 'JsonWebTokenError') {
+            return msg(res, 401, false);
+        }
+        console.error('Error verifying token:', err);
+        return msg(res, 500, 'Internal Server Error');
     }
 };

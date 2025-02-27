@@ -6,6 +6,7 @@ const {
     checkNationalIdMedicalRecordAudit,
     addDataUser,
     fetchOneUser,
+    checkUserId,
     removeUser
 } = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
@@ -16,6 +17,7 @@ const CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const NodeCache = require("node-cache");
 const otpCache = new NodeCache({ stdTTL: 300 }); // รหัส OTP หมดอายุใน 5 นาที (300 วินาที)
+const { statusOtp } = require('../../utils/statusOtp');
 
 // ฟังก์ชันสร้างรหัส OTP (เฉพาะตัวเลข)
 const generateOtp = (email) => {
@@ -139,6 +141,7 @@ exports.authVerifyOtp = async (req, res) => {
         
         if (cachedOtp === otpCode) {
             // OTP ถูกต้อง, อาจจะทำการสร้าง JWT หรือทำงานต่อ
+            statusOtp.valid = true;
             return msg(res, 200, { message: "Login successfully!" });
         } else {
             return msg(res, 400, { message: "OTP ไม่ถูกต้อง" });
@@ -174,9 +177,16 @@ exports.authVerifyToken = async (req, res) => {
 // Function สำหรับ Remove User ออกจาก Database => medical_record_audit
 exports.authRemoveUser = async(req, res) => {
     try {
-        const { id } = req.params;
+        const id = parseInt(req.params.id);
         const { password } = req.body;
-        const hashedPassword = req.password;
+        const hashedPassword = req.user[0].password;
+        const userId = req.user[0].id;
+
+        if(id === userId) return msg(res, 400, { message: "ไม่สามารถลบ User ตัวเราเองในขณะที่อยู่ในระบบได้!" });
+
+        const checkUserIdResult = await checkUserId(id);
+        if(!checkUserIdResult) return msg(res, 400, { message: "ไม่มี User นี้ในระบบกรุณาตรวจสอบ!!" });
+
         const isMath = await bcrypt.compare(password, hashedPassword);
         if(isMath === false) return msg(res, 400, "คุณไม่มีสิทธิ์ในการลบข้อมูล!");
 
@@ -185,6 +195,21 @@ exports.authRemoveUser = async(req, res) => {
             return msg(res, 200, { message: 'ลบข้อมูลเสร็จสิ้น!' });
         } else {
             return msg(res, 400, { message: 'ลบข้อมูลไม่สำเร็จ!' });
+        }
+    } catch(err) {
+        console.error(err.message);
+        return msg(res, 500, 'Internel server errors');
+    }
+}
+
+// Function สำหรับการ Logout ออกจากระบบ
+exports.authLogout = async (req, res) => {
+    try {
+        if(statusOtp.valid != true) {
+            return msg(res, 200, { message: "Logout successfully!" });
+        } else {
+            statusOtp.valid = false;
+            return msg(res, 200, { message: "Logout successfully!" });
         }
     } catch(err) {
         console.error(err.message);

@@ -210,6 +210,17 @@ exports.fetchOneUser = async (id) => {
     }
 }
 
+// Check User id ของ id ที่ส่งมา
+exports.checkUserId = async (id) => {
+    try {
+        const [result] = await db_m.query('SELECT id FROM users WHERE id = ?', [id]);
+        return result.length > 0;
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to check user id data");
+    }
+}
+
 // ลบข้อมูล
 exports.removeUser = async (id) => {
     try {
