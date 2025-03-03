@@ -717,6 +717,38 @@
               }
             }
           },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource ไม่พบ",
             "content": {
@@ -826,7 +858,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }
@@ -931,7 +979,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }
@@ -1018,7 +1082,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ลบข้อมูลไม่สำเร็จ!"
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }
@@ -1125,34 +1205,66 @@
                 }
               }
             }
-          }
-        },
-        "404": {
-          "description": "Resource ไม่พบ",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "No data found"
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
                   }
                 }
               }
             }
-          }
-        },
-        "500": {
-          "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "internal server errors"
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
                   }
                 }
               }
@@ -1230,7 +1342,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }
@@ -1335,7 +1463,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }
@@ -1422,7 +1566,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ลบข้อมูลไม่สำเร็จ!"
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }

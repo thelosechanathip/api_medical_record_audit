@@ -7,16 +7,16 @@ const { statusOtp } = require('../../utils/statusOtp');
 // สำหรับตรวจสอบสิทธิ์การเข้าใช้งานระบบโดยทั่วไป
 exports.authCheckToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-    if (!authHeader) return msg(res, 401, { message: 'ไม่มี Token ถูกส่งมา' });
+    if (!authHeader) return msg(res, 401, { message: 'ไม่มี Token ถูกส่งมา!' });
 
     const token = authHeader.split(' ')[1];
     try {
         // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        if (!decoded) return msg(res, 400, { message: false });
+        if (!decoded) return msg(res, 400, { message: 'Token ไม่ถูกต้อง!' });
 
-        const { valid } = statusOtp;
-        if(valid === false || valid === '') return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+        const { valid, tokenValid } = statusOtp;
+        if(valid === false || valid === '' || token != tokenValid) return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
 
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, fullname, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         req.user = fetchOneStatusUserResult;
@@ -24,12 +24,12 @@ exports.authCheckToken = async (req, res, next) => {
         next();
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
-            return msg(res, 401, { message: 'TokenExpiredError' });
+            return msg(res, 401, { message: 'TokenExpiredError!' });
         } else if (err.name === 'JsonWebTokenError') {
-            return msg(res, 401, { message: 'JsonWebTokenError' });
+            return msg(res, 401, { message: 'JsonWebTokenError!' });
         }
         console.error('Error verifying token:', err);
-        return msg(res, 500, { message: 'Internal Server Error' });
+        return msg(res, 500, { message: 'Internal Server Error!' });
     }
 };
 
@@ -70,8 +70,8 @@ exports.authAdminSetting = async(req, res, next) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 400, { message: "Token ไม่ถูกต้อง!" });
 
-        const { valid } = statusOtp;
-        if(valid === false || valid === '') return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+        const { valid, tokenValid } = statusOtp;
+        if(valid === false || valid === '' || token != tokenValid) return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
 
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, fullname, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         if(fetchOneStatusUserResult[0].status != "ADMIN") return msg(res, 400, { message: "ไม่มีสิทธิ์ใช้งาน Function นี้!!" });

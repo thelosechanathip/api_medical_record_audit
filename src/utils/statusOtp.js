@@ -1,3 +1,3 @@
-const statusOtp = { valid: false };
+const statusOtp = { valid: false, tokenValid: '' };
 
 module.exports = { statusOtp };

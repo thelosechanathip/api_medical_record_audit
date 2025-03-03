@@ -12,7 +12,8 @@ const { msg } = require('../../utils/message');
 // ใช้สำหรับดึงข้อมูล PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้)
 exports.getAllDataPatientServices = async (req, res) => {
     try {
-        const fetchPatientServicesDataResult = await fetchPatientServicesData();
+        const { fullname } = req.user[0];
+        const fetchPatientServicesDataResult = await fetchPatientServicesData(fullname);
         if (!Array.isArray(fetchPatientServicesDataResult) || fetchPatientServicesDataResult.length === 0) {
             return msg(res, 404, { message: "No data found" });
         }
@@ -106,13 +107,14 @@ exports.updateDataPatientServices = async (req, res) => {
 exports.removeDataPatientServices = async (req, res) => {
     try {
         const { id } = req.params;
+        const { fullname } = req.user[0];
         // Check ว่ามี ID นี้อยู่ในระบบหรือไม่?
         const checkIdPatientServicesDataResult = await checkIdPatientServicesData(id);
         if (!checkIdPatientServicesDataResult) {
             return msg(res, 404, { message: 'ไม่มี (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบ!' });
         }
 
-        const removePatientServicesDataResult = await removePatientServicesData(id, req.body);
+        const removePatientServicesDataResult = await removePatientServicesData(id, fullname);
         if (removePatientServicesDataResult) {
             return msg(res, 200, { message: 'ลบข้อมูลเสร็จสิ้น!' });
         } else {

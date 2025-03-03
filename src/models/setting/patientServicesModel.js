@@ -1,10 +1,26 @@
 const db_m = require('../../config/db_m');
 
 // ฟังก์ชันสำหรับดึงข้อมูล Table patient_services จากฐานข้อมูล
-exports.fetchPatientServicesData = async() => {
+exports.fetchPatientServicesData = async(fullname) => {
     try {
-        const [result] = await db_m.query('SELECT * FROM patient_services');
-        return result;
+        const sql_1 = 'SELECT * FROM patient_services';
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+        const [result_1] = await db_m.query(sql_1);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+        const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'SELECT'`);
+        const doing_what = 'ค้นหาข้อมูล';
+
+        await db_m.query(
+            `
+                INSERT INTO log_patient_services (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                VALUES(?, ?, ?, ?, ?, ?)
+            `,
+            [typeSqlIdResult[0].id, doing_what, executedSQL_1, durationInMinutes_1, fullname, fullname]
+        );
+        return result_1;
     } catch (err) {
         console.error(err.message);
         throw new Error("Failed to fetch patient service data");
@@ -83,18 +99,33 @@ exports.checkIdPatientServicesData = async (id) => {
 exports.updatePatientServicesData = async (id, data, fullname) => {
     try {
         const { patient_services_name_english, patient_services_name_thai } = data;
-        const [result] = await db_m.query(
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+        const sql_1 = `
+            UPDATE patient_services 
+            SET 
+                patient_services_name_english = ?,
+                patient_services_name_thai = ?,
+                updated_by = ?
+            WHERE id = ?
+        `;
+        const [result_1] = await db_m.query(sql_1, [patient_services_name_english, patient_services_name_thai, fullname, id]);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1, [patient_services_name_english, patient_services_name_thai, fullname, id]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+
+        const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'UPDATE'`);
+        const doing_what = 'อัพเดทข้อมูล';
+
+        await db_m.query(
             `
-                UPDATE patient_services 
-                SET 
-                    patient_services_name_english = ?,
-                    patient_services_name_thai = ?,
-                    updated_by = ?
-                WHERE id = ?
+                INSERT INTO log_patient_services (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                VALUES(?, ?, ?, ?, ?, ?)
             `,
-            [patient_services_name_english, patient_services_name_thai, fullname, id]
+            [typeSqlIdResult[0].id, doing_what, executedSQL_1, durationInMinutes_1, fullname, fullname]
         );
-        return result.affectedRows > 0; // ส่งกลับ true หากมีการอัพเดทข้อมูล, false หากไม่มี
+
+        return result_1.affectedRows > 0; // ส่งกลับ true หากมีการอัพเดทข้อมูล, false หากไม่มี
     } catch (err) {
         console.error(err.message);
         throw new Error("Failed to update patient service data");
@@ -102,13 +133,32 @@ exports.updatePatientServicesData = async (id, data, fullname) => {
 };
 
 // ลบข้อมูลบน Table patient_services
-exports.removePatientServicesData = async (id) => {
+exports.removePatientServicesData = async (id, fullname) => {
     try {
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+        const sql_1 = `
+            DELETE FROM patient_services WHERE id = ?
+        `;
         // ลบข้อมูลจากตาราง patient_services
-        const [deleteResult] = await db_m.query('DELETE FROM patient_services WHERE id = ?', [id]);
+        const [deleteResult_1] = await db_m.query(sql_1, [id]);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1, [id]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
 
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (deleteResult.affectedRows > 0) {
+        if (deleteResult_1.affectedRows > 0) {
+            const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'DELETE'`);
+            const doing_what = 'ลบข้อมูล';
+
+            await db_m.query(
+                `
+                    INSERT INTO log_patient_services (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                    VALUES(?, ?, ?, ?, ?, ?)
+                `,
+                [typeSqlIdResult[0].id, doing_what, executedSQL_1, durationInMinutes_1, fullname, fullname]
+            );
+
             // หาค่า MAX(id) จากตาราง patient_services เพื่อคำนวณค่า AUTO_INCREMENT ใหม่
             const [maxIdResult] = await db_m.query('SELECT MAX(id) AS maxId FROM patient_services');
             const nextAutoIncrement = (maxIdResult[0].maxId || 0) + 1;

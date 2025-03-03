@@ -34,7 +34,8 @@ exports.fetchOneUserData = async (username) => {
         const sql_1 = `
             SELECT
                 id,
-                email
+                email,
+                fullname
             FROM users
             WHERE username = ?
             LIMIT 1
@@ -43,7 +44,8 @@ exports.fetchOneUserData = async (username) => {
 
         const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
         const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
-        
+        const executedSQL_1 = db_m.format(sql_1, [username]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+
         const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'SELECT'`);
         const doing_what = 'เข้าสู่ระบบ Medical Record Audit';
 
@@ -52,7 +54,7 @@ exports.fetchOneUserData = async (username) => {
             VALUES(?, ?, ?, ?, ?, ?)
         `;
 
-        await db_m.query(insertLogQuery, [typeSqlIdResult[0].id, doing_what, sql_1, durationInMinutes_1, username, username]);
+        await db_m.query(insertLogQuery, [typeSqlIdResult[0].id, doing_what, executedSQL_1, durationInMinutes_1, result_1[0].fullname, result_1[0].fullname]);
 
         return result_1;
     } catch (err) {
@@ -202,8 +204,24 @@ exports.addDataUser = async (national_id) => {
 // ดึงข้อมูลแค่ 1 record
 exports.fetchOneUser = async (id) => {
     try {
-        const [result] = await db_m.query('SELECT fullname, position, department,status FROM users WHERE id = ?', [id]);
-        return result;
+        const sql_1 = 'SELECT fullname, position, department,status FROM users WHERE id = ?';
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+        const [result_1] = await db_m.query(sql_1, [id]);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+        const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'SELECT'`);
+        const doing_what = 'Verify Token';
+
+        await db_m.query(
+            `
+                INSERT INTO log_login_logout (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                VALUES(?, ?, ?, ?, ?, ?)
+            `,
+            [typeSqlIdResult[0].id, doing_what, executedSQL_1, durationInMinutes_1, result_1[0].fullname, result_1[0].fullname]
+        );
+        return result_1;
     } catch (err) {
         console.error("Database error:", err.message);
         throw new Error("Failed to fetch user data");
@@ -211,10 +229,26 @@ exports.fetchOneUser = async (id) => {
 }
 
 // Check User id ของ id ที่ส่งมา
-exports.checkUserId = async (id) => {
+exports.checkUserId = async (id, fullname) => {
     try {
-        const [result] = await db_m.query('SELECT id FROM users WHERE id = ?', [id]);
-        return result.length > 0;
+        const sql_1 = 'SELECT id FROM users WHERE id = ?';
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+        const [result_1] = await db_m.query(sql_1, [id]);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1, [id]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+        const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'SELECT'`);
+        const doing_what = 'checkUserId';
+
+        await db_m.query(
+            `
+                INSERT INTO log_login_logout (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                VALUES(?, ?, ?, ?, ?, ?)
+            `,
+            [typeSqlIdResult[0].id, doing_what, executedSQL_1, durationInMinutes_1, fullname, fullname]
+        );
+        return result_1.length > 0;
     } catch (err) {
         console.error("Database error:", err.message);
         throw new Error("Failed to check user id data");
@@ -222,13 +256,29 @@ exports.checkUserId = async (id) => {
 }
 
 // ลบข้อมูล
-exports.removeUser = async (id) => {
+exports.removeUser = async (id, fullname) => {
     try {
+        const sql_1 = 'DELETE FROM users WHERE id = ?';
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
         // ลบข้อมูลจากตาราง users
-        const [deleteResult] = await db_m.query('DELETE FROM users WHERE id = ?', [id]);
+        const [deleteResult_1] = await db_m.query(sql_1, [id]);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1, [id]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+        const [typeSqlIdResult_1] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'DELETE'`);
+        const doing_what_1 = 'removeUser';
 
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (deleteResult.affectedRows > 0) {
+        if (deleteResult_1.affectedRows > 0) {
+            await db_m.query(
+                `
+                    INSERT INTO log_patient_services (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                    VALUES(?, ?, ?, ?, ?, ?)
+                `,
+                [typeSqlIdResult_1[0].id, doing_what_1, executedSQL_1, durationInMinutes_1, fullname, fullname]
+            );
+
             // หาค่า MAX(id) จากตาราง users เพื่อคำนวณค่า AUTO_INCREMENT ใหม่
             const [maxIdResult] = await db_m.query('SELECT MAX(id) AS maxId FROM users');
             const nextAutoIncrement = (maxIdResult[0].maxId || 0) + 1;
@@ -247,16 +297,15 @@ exports.removeUser = async (id) => {
 }
 
 // เพิ่มข้อมูลไปยัง log_login_logout เมื่อมีการ Logout ออกจากระบบ
-exports.addLogLogout = async (id) => {
+exports.addLogLogout = async (fullname) => {
     try {
-        const [userDataResult] = await db_m.query('SELECT username FROM users WHERE id = ?', [id]);
         
         const [addLogLogoutResult] = await db_m.query(
             `
                 INSERT INTO log_login_logout (doing_what, created_by, updated_by)
                 VALUES(?, ?, ?)
             `,
-            ['Logout( ออกจากระบบ )', userDataResult[0].username, userDataResult[0].username]
+            ['Logout( ออกจากระบบ )', fullname, fullname]
         );
 
         return addLogLogoutResult.affectedRows > 0;

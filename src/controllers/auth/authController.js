@@ -143,6 +143,7 @@ exports.authVerifyOtp = async (req, res) => {
         if (cachedOtp === otpCode) {
             // OTP ถูกต้อง, อาจจะทำการสร้าง JWT หรือทำงานต่อ
             statusOtp.valid = true;
+            statusOtp.tokenValid = token;
             return msg(res, 200, { message: "Login successfully!" });
         } else {
             return msg(res, 400, { message: "OTP ไม่ถูกต้อง" });
@@ -182,16 +183,17 @@ exports.authRemoveUser = async(req, res) => {
         const { password } = req.body;
         const hashedPassword = req.user[0].password;
         const userId = req.user[0].id;
+        const { fullname } = req.user[0];
 
         if(id === userId) return msg(res, 400, { message: "ไม่สามารถลบ User ตัวเราเองในขณะที่อยู่ในระบบได้!" });
 
-        const checkUserIdResult = await checkUserId(id);
+        const checkUserIdResult = await checkUserId(id, fullname);
         if(!checkUserIdResult) return msg(res, 400, { message: "ไม่มี User นี้ในระบบกรุณาตรวจสอบ!!" });
 
         const isMath = await bcrypt.compare(password, hashedPassword);
         if(isMath === false) return msg(res, 400, "คุณไม่มีสิทธิ์ในการลบข้อมูล!");
 
-        const removeUserResult = await removeUser(id);
+        const removeUserResult = await removeUser(id, fullname);
         if(removeUserResult) {
             return msg(res, 200, { message: 'ลบข้อมูลเสร็จสิ้น!' });
         } else {
@@ -206,7 +208,8 @@ exports.authRemoveUser = async(req, res) => {
 // Function สำหรับการ Logout ออกจากระบบ
 exports.authLogout = async (req, res) => {
     try {
-        const addLogLogoutResult = await addLogLogout(req.user[0].id);
+        const { fullname } = req.user[0];
+        const addLogLogoutResult = await addLogLogout(fullname);
 
         if(!addLogLogoutResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!");
 
@@ -214,6 +217,7 @@ exports.authLogout = async (req, res) => {
             return msg(res, 200, { message: "Logout successfully!" });
         } else {
             statusOtp.valid = false;
+            statusOtp.tokenValid = '';
             return msg(res, 200, { message: "Logout successfully!" });
         }
     } catch (err) {
