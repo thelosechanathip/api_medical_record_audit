@@ -8,7 +8,7 @@ const {
 } = require('../../models/setting/patientServicesModel');
 const { msg } = require('../../utils/message');
 
-// ใช้สำหรับดึงข้อมูล PatientServices (ตารางเก็บประเภทของการดำเนินการ SQL)
+// ใช้สำหรับดึงข้อมูล PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้)
 exports.getAllDataPatientServices = async (req, res) => {
     try {
         const fetchPatientServicesDataResult = await fetchPatientServicesData();
@@ -22,7 +22,7 @@ exports.getAllDataPatientServices = async (req, res) => {
     }
 }
 
-// ใช้สำหรับเพิ่มข้อมูล PatientServices (ตารางเก็บประเภทของการดำเนินการ SQL)
+// ใช้สำหรับเพิ่มข้อมูล PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้)
 exports.addDataPatientServices = async (req, res) => {
     try {
         const { patient_services_name } = req.body;
@@ -36,7 +36,7 @@ exports.addDataPatientServices = async (req, res) => {
         // Check patient_services_name ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
         const checkPatientServicesNameDataResult = await checkPatientServicesNameData(patient_services_name);
         if (checkPatientServicesNameDataResult) {
-            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // เพิ่มข้อมูลลงในฐานข้อมูล
@@ -52,14 +52,14 @@ exports.addDataPatientServices = async (req, res) => {
     }
 };
 
-// ใช้สำหรับอัพเดทข้อมูล PatientServices (ตารางเก็บประเภทของการดำเนินการ SQL)
+// ใช้สำหรับอัพเดทข้อมูล PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้)
 exports.updateDataPatientServices = async (req, res) => {
     try {
         const { id } = req.params;
         // Check ว่ามี ID นี้อยู่ในระบบหรือไม่?
         const checkIdPatientServicesDataResult = await checkIdPatientServicesData(id);
         if (!checkIdPatientServicesDataResult) {
-            return msg(res, 404, { message: 'ไม่มี (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบ!' });
+            return msg(res, 404, { message: 'ไม่มี (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบ!' });
         }
 
         const { patient_services_name } = req.body;
@@ -73,7 +73,7 @@ exports.updateDataPatientServices = async (req, res) => {
         // Check patient_services_name ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
         const checkPatientServicesNameDataResult = await checkPatientServicesNameData(patient_services_name);
         if (checkPatientServicesNameDataResult) {
-            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // อัพเดทข้อมูลลงในฐานข้อมูล
@@ -89,14 +89,14 @@ exports.updateDataPatientServices = async (req, res) => {
     }
 };
 
-// ใช้สำหรับลบข้อมูล PatientServices( ตารางเก็บประเภทของการดำเนินการ SQL )
+// ใช้สำหรับลบข้อมูล PatientServices( ตารางเก็บคำระบุกลุ่มคนไข้ )
 exports.removeDataPatientServices = async (req, res) => {
     try {
         const { id } = req.params;
         // Check ว่ามี ID นี้อยู่ในระบบหรือไม่?
         const checkIdPatientServicesDataResult = await checkIdPatientServicesData(id);
         if (!checkIdPatientServicesDataResult) {
-            return msg(res, 404, { message: 'ไม่มี (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบ!' });
+            return msg(res, 404, { message: 'ไม่มี (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบ!' });
         }
 
         const removePatientServicesDataResult = await removePatientServicesData(id, req.body);

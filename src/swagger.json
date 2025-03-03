@@ -21,8 +21,12 @@
       "description": "Endpoints สำหรับการยืนยันตัวตนและการจัดการสิทธิ์ เช่น Login, Logout"
     },
     {
-      "name": "Setting",
-      "description": "Endpoints สำหรับการจัดการตั้งค่าต่างๆ"
+      "name": "TypeSql",
+      "description": "Endpoints สำหรับการจัดการตารางเก็บประเภทของการดำเนินการ SQL"
+    },
+    {
+      "name": "PatientServices",
+      "description": "Endpoints สำหรับการจัดการตารางเก็บคำระบุของกลุ่มคนไข้"
     },
     {
       "name": "Log",
@@ -379,6 +383,10 @@
                         "department": {
                           "type": "string",
                           "example": "แผนกรักป่ารักเขา"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "ADMIN"
                         }
                       }
                     }
@@ -646,7 +654,7 @@
     "/api/setting/typeSql": {
       "get": {
         "tags": [
-          "Setting"
+          "TypeSql"
         ],
         "summary": "สำหรับดึงข้อมูล typeSql",
         "description": "สำหรับดึงข้อมูลทั้งหมดของ typeSql",
@@ -735,7 +743,7 @@
     "/api/setting/addTypeSql": {
       "post": {
         "tags": [
-          "Setting"
+          "TypeSql"
         ],
         "summary": "สำหรับบันทึกข้อมูล typeSql",
         "description": "สำหรับบันทึกข้อมูลทั้งหมดของ typeSql",
@@ -823,7 +831,7 @@
     "/api/setting/updateTypeSql/{id}": {
       "put": {
         "tags": [
-          "Setting"
+          "TypeSql"
         ],
         "summary": "สำหรับอัพเดทข้อมูล typeSql",
         "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ typeSql",
@@ -918,7 +926,7 @@
     "/api/setting/deleteTypeSql/{id}": {
       "delete": {
         "tags": [
-          "Setting"
+          "TypeSql"
         ],
         "summary": "สำหรับลบข้อมูล typeSql",
         "description": "สำหรับลบข้อมูลทั้งหมดของ typeSql",
@@ -937,9 +945,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
-              
-            }
+            "application/json": {}
           }
         },
         "responses": {
@@ -985,6 +991,356 @@
                     "message": {
                       "type": "string",
                       "example": "ไม่มี (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/patientServices": {
+      "get": {
+        "tags": [
+          "PatientServices"
+        ],
+        "summary": "สำหรับดึงข้อมูล patientServices",
+        "description": "สำหรับดึงข้อมูลทั้งหมดของ patientServices",
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "patient_services_name": {
+                            "type": "string",
+                            "example": "OPD"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "created_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "updated_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Resource ไม่พบ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "No data found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "internal server errors"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/addPatientServices": {
+      "post": {
+        "tags": [
+          "PatientServices"
+        ],
+        "summary": "สำหรับบันทึกข้อมูล patientServices",
+        "description": "สำหรับบันทึกข้อมูลทั้งหมดของ patientServices",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patient_services_name": {
+                    "type": "string",
+                    "example": "OPD"
+                  }
+                },
+                "required": [
+                  "patient_services_name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "บันทึกข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/updatePatientServices/{id}": {
+      "put": {
+        "tags": [
+          "PatientServices"
+        ],
+        "summary": "สำหรับอัพเดทข้อมูล PatientServices",
+        "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ PatientServices",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ PatientServices ที่ต้องการอัพเดท"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patient_services_name": {
+                    "type": "string",
+                    "example": "IPD"
+                  }
+                },
+                "required": [
+                  "patient_services_name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "อัพเดทข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/deletePatientServices/{id}": {
+      "delete": {
+        "tags": [
+          "PatientServices"
+        ],
+        "summary": "สำหรับลบข้อมูล PatientServices",
+        "description": "สำหรับลบข้อมูลทั้งหมดของ PatientServices",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ PatientServices ที่ต้องการลบ"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ลบข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบ!"
                     }
                   }
                 }
