@@ -658,6 +658,18 @@
         ],
         "summary": "สำหรับดึงข้อมูล typeSql",
         "description": "สำหรับดึงข้อมูลทั้งหมดของ typeSql",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "ความสำเร็จทั่วไป",
@@ -747,6 +759,18 @@
         ],
         "summary": "สำหรับบันทึกข้อมูล typeSql",
         "description": "สำหรับบันทึกข้อมูลทั้งหมดของ typeSql",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -836,6 +860,16 @@
         "summary": "สำหรับอัพเดทข้อมูล typeSql",
         "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ typeSql",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
           {
             "name": "id",
             "in": "path",
@@ -932,6 +966,16 @@
         "description": "สำหรับลบข้อมูลทั้งหมดของ typeSql",
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
+          {
             "name": "id",
             "in": "path",
             "required": true,
@@ -1023,6 +1067,18 @@
         ],
         "summary": "สำหรับดึงข้อมูล patientServices",
         "description": "สำหรับดึงข้อมูลทั้งหมดของ patientServices",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "ความสำเร็จทั่วไป",
@@ -1112,6 +1168,18 @@
         ],
         "summary": "สำหรับบันทึกข้อมูล patientServices",
         "description": "สำหรับบันทึกข้อมูลทั้งหมดของ patientServices",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1119,13 +1187,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "patient_services_name": {
+                  "patient_services_name_english": {
                     "type": "string",
                     "example": "OPD"
+                  },
+                  "patient_services_name_thai": {
+                    "type": "string",
+                    "example": "ผู้ป่วยนอก"
                   }
                 },
                 "required": [
-                  "patient_services_name"
+                  "patient_services_name_english",
+                  "patient_services_name_thai"
                 ]
               }
             }
@@ -1192,6 +1265,16 @@
         "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ PatientServices",
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
+          {
             "name": "id",
             "in": "path",
             "required": true,
@@ -1209,13 +1292,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "patient_services_name": {
+                  "patient_services_name_english": {
                     "type": "string",
                     "example": "IPD"
+                  },
+                  "patient_services_name_thai": {
+                    "type": "string",
+                    "example": "ผู้ป่วยใน"
                   }
                 },
                 "required": [
-                  "patient_services_name"
+                  "patient_services_name_english",
+                  "patient_services_name_thai"
                 ]
               }
             }
@@ -1281,6 +1369,16 @@
         "summary": "สำหรับลบข้อมูล PatientServices",
         "description": "สำหรับลบข้อมูลทั้งหมดของ PatientServices",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1373,6 +1471,18 @@
         ],
         "summary": "การจัดการ Log",
         "description": "ลบ Log ทั้งหมดใน Database",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "ความสำเร็จทั่วไป",

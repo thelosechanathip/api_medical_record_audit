@@ -11,33 +11,44 @@ exports.fetchPatientServicesData = async() => {
     }
 }
 
-// Check ว่ามี PatientServicesName บน Table patient_services หรือไม่?
-exports.checkPatientServicesNameData = async(patient_services_name) => {
+// Check ว่ามี PatientServicesNameEnglish บน Table patient_services หรือไม่?
+exports.checkPatientServicesNameEnglishData = async(patient_services_name_english) => {
     try {
-        const [result] = await db_m.query('SELECT patient_services_name FROM patient_services WHERE patient_services_name = ?', [patient_services_name]);
+        const [result] = await db_m.query('SELECT patient_services_name_english FROM patient_services WHERE patient_services_name_english = ?', [patient_services_name_english]);
         return result.length > 0; // ส่งกลับ true หากพบข้อมูล, false หากไม่พบ
     } catch (err) {
         console.error(err.message);
-        throw new Error("Failed to check patient service name data");
+        throw new Error("Failed to check patient service name english data");
+    }
+}
+
+// Check ว่ามี PatientServicesNameThai บน Table patient_services หรือไม่?
+exports.checkPatientServicesNameThaiData = async(patient_services_name_thai) => {
+    try {
+        const [result] = await db_m.query('SELECT patient_services_name_thai FROM patient_services WHERE patient_services_name_thai = ?', [patient_services_name_thai]);
+        return result.length > 0; // ส่งกลับ true หากพบข้อมูล, false หากไม่พบ
+    } catch (err) {
+        console.error(err.message);
+        throw new Error("Failed to check patient service name thai data");
     }
 }
 
 // เพิ่มข้อมูลไปยัง Table patient_services
 exports.addPatientServicesData = async(data, fullname) => {
     try {
-        const { patient_services_name } = data;
+        const { patient_services_name_english, patient_services_name_thai } = data;
 
         const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
         const sql_1 = `
-            INSERT INTO patient_services (patient_services_name, created_by, updated_by)
-            VALUES (?, ?, ?)
+            INSERT INTO patient_services (patient_services_name_english, patient_services_name_thai, created_by, updated_by)
+            VALUES (?, ?, ?, ?)
         `;
 
-        const [result_1] = await db_m.query(sql_1, [patient_services_name, fullname, fullname]);
+        const [result_1] = await db_m.query(sql_1, [patient_services_name_english, patient_services_name_thai, fullname, fullname]);
         const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
         const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
         
-        const executedSQL_1 = db_m.format(sql_1, [patient_services_name, fullname, fullname]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+        const executedSQL_1 = db_m.format(sql_1, [patient_services_name_english, patient_services_name_thai, fullname, fullname]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
         
         const [typeSqlIdResult] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'INSERT'`);
         const doing_what = 'บันทึกข้อมูล';
@@ -71,16 +82,17 @@ exports.checkIdPatientServicesData = async (id) => {
 // อัพเดทข้อมูลไปยัง Table patient_services
 exports.updatePatientServicesData = async (id, data, fullname) => {
     try {
-        const { patient_services_name } = data;
+        const { patient_services_name_english, patient_services_name_thai } = data;
         const [result] = await db_m.query(
             `
                 UPDATE patient_services 
                 SET 
-                    patient_services_name = ?,
+                    patient_services_name_english = ?,
+                    patient_services_name_thai = ?,
                     updated_by = ?
                 WHERE id = ?
             `,
-            [patient_services_name, fullname, id]
+            [patient_services_name_english, patient_services_name_thai, fullname, id]
         );
         return result.affectedRows > 0; // ส่งกลับ true หากมีการอัพเดทข้อมูล, false หากไม่มี
     } catch (err) {

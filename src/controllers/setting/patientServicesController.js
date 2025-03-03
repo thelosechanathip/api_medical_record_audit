@@ -1,6 +1,7 @@
 const {
     fetchPatientServicesData,
-    checkPatientServicesNameData,
+    checkPatientServicesNameEnglishData,
+    checkPatientServicesNameThaiData,
     addPatientServicesData,
     checkIdPatientServicesData,
     updatePatientServicesData,
@@ -25,18 +26,24 @@ exports.getAllDataPatientServices = async (req, res) => {
 // ใช้สำหรับเพิ่มข้อมูล PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้)
 exports.addDataPatientServices = async (req, res) => {
     try {
-        const { patient_services_name } = req.body;
+        const { patient_services_name_english, patient_services_name_thai } = req.body;
         const { fullname } = req.user[0];
 
         // Check ว่ามีการกรอกข้อมูลเข้ามาหรือไม่?
-        if (!patient_services_name) {
+        if (!patient_services_name_english || !patient_services_name_thai) {
             return msg(res, 400, { message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
         }
 
-        // Check patient_services_name ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
-        const checkPatientServicesNameDataResult = await checkPatientServicesNameData(patient_services_name);
-        if (checkPatientServicesNameDataResult) {
-            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+        // Check patient_services_name_english ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
+        const checkPatientServicesNameEnglishDataResult = await checkPatientServicesNameEnglishData(patient_services_name_english);
+        if (checkPatientServicesNameEnglishDataResult) {
+            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่ออังกฤษ) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+        }
+        
+        // Check patient_services_name_thai ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
+        const checkPatientServicesNameThaiDataResult = await checkPatientServicesNameThaiData(patient_services_name_thai);
+        if (checkPatientServicesNameThaiDataResult) {
+            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่อไทย) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // เพิ่มข้อมูลลงในฐานข้อมูล
@@ -62,18 +69,24 @@ exports.updateDataPatientServices = async (req, res) => {
             return msg(res, 404, { message: 'ไม่มี (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบ!' });
         }
 
-        const { patient_services_name } = req.body;
+        const { patient_services_name_english, patient_services_name_thai } = req.body;
         const { fullname } = req.user[0];
 
         // Check ว่ามีการกรอกข้อมูลเข้ามาหรือไม่?
-        if (!patient_services_name) {
+        if (!patient_services_name_english || !patient_services_name_thai) {
             return msg(res, 400, { message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
         }
 
-        // Check patient_services_name ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
-        const checkPatientServicesNameDataResult = await checkPatientServicesNameData(patient_services_name);
-        if (checkPatientServicesNameDataResult) {
-            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+        // Check patient_services_name_english ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
+        const checkPatientServicesNameEnglishDataResult = await checkPatientServicesNameEnglishData(patient_services_name_english);
+        if (checkPatientServicesNameEnglishDataResult) {
+            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่ออังกฤษ) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+        }
+        
+        // Check patient_services_name_thai ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
+        const checkPatientServicesNameThaiDataResult = await checkPatientServicesNameThaiData(patient_services_name_thai);
+        if (checkPatientServicesNameThaiDataResult) {
+            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่อไทย) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // อัพเดทข้อมูลลงในฐานข้อมูล
