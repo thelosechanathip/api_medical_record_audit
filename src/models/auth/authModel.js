@@ -202,7 +202,7 @@ exports.addDataUser = async (national_id) => {
 // ดึงข้อมูลแค่ 1 record
 exports.fetchOneUser = async (id) => {
     try {
-        const [result] = await db_m.query('SELECT fullname, position, department FROM users WHERE id = ?', [id]);
+        const [result] = await db_m.query('SELECT fullname, position, department,status FROM users WHERE id = ?', [id]);
         return result;
     } catch (err) {
         console.error("Database error:", err.message);

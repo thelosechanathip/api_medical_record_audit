@@ -47,6 +47,11 @@ exports.clearLog = async() => {
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
         if (removeLogReviewStatusResult.affectedRows > 0) await db_m.query('ALTER TABLE log_review_status AUTO_INCREMENT = 1');
 
+        // ลบข้อมูลจากตาราง log_review_status
+        const [removeLogPatientServicesResult] = await db_m.query('DELETE FROM log_patient_services');
+        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
+        if (removeLogPatientServicesResult.affectedRows > 0) await db_m.query('ALTER TABLE log_patient_services AUTO_INCREMENT = 1');
+
         return true; // หากไม่มีข้อมูลถูกลบ
     } catch (err) {
         console.error(err.message);

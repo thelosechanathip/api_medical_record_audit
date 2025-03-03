@@ -9,7 +9,7 @@ const {
 const { msg } = require('../../utils/message');
 
 // ใช้สำหรับดึงข้อมูล TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL)
-exports.getAlldataTypeSql = async(req, res) => {
+exports.getAllDataTypeSql = async(req, res) => {
     try {
         const fetchTypeSqlDataResult = await fetchTypeSqlData();
         if (!Array.isArray(fetchTypeSqlDataResult) || fetchTypeSqlDataResult.length === 0) {
