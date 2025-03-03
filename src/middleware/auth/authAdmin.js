@@ -24,12 +24,12 @@ exports.authCheckToken = async (req, res, next) => {
         next();
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
-            return msg(res, 401, false);
+            return msg(res, 401, { message: 'TokenExpiredError' });
         } else if (err.name === 'JsonWebTokenError') {
-            return msg(res, 401, false);
+            return msg(res, 401, { message: 'JsonWebTokenError' });
         }
         console.error('Error verifying token:', err);
-        return msg(res, 500, 'Internal Server Error');
+        return msg(res, 500, { message: 'Internal Server Error' });
     }
 };
 
@@ -74,18 +74,18 @@ exports.authAdminSetting = async(req, res, next) => {
         if(valid === false || valid === '') return msg(res, 400, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
 
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, fullname, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
-        if(fetchOneStatusUserResult[0].status != "ADMIN") return msg(res, 400, "ไม่มีสิทธิ์ใช้งาน Function นี้!!");
+        if(fetchOneStatusUserResult[0].status != "ADMIN") return msg(res, 400, { message: "ไม่มีสิทธิ์ใช้งาน Function นี้!!" });
 
         req.user = fetchOneStatusUserResult;
 
         next();
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
-            return msg(res, 401, false);
+            return msg(res, 401, { message: 'TokenExpiredError' });
         } else if (err.name === 'JsonWebTokenError') {
-            return msg(res, 401, false);
+            return msg(res, 401, { message: 'JsonWebTokenError' });
         }
         console.error('Error verifying token:', err);
-        return msg(res, 500, 'Internal Server Error');
+        return msg(res, 500, { message: 'Internal Server Error' });
     }
 };
