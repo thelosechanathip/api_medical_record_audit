@@ -1176,9 +1176,13 @@
                             "type": "integer",
                             "example": 1
                           },
-                          "patient_services_name": {
+                          "patient_services_name_english": {
                             "type": "string",
                             "example": "OPD"
+                          },
+                          "patient_services_name_thai": {
+                            "type": "string",
+                            "example": "ผู้ป่วยนอก"
                           },
                           "created_at": {
                             "type": "string",
