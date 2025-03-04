@@ -29,6 +29,10 @@
       "description": "Endpoints สำหรับการจัดการตารางเก็บคำระบุของกลุ่มคนไข้"
     },
     {
+      "name": "ContentOfMedicalRecord",
+      "description": "Endpoints สำหรับการจัดการตารางเก็บเนื้อหาเวชระเบียน"
+    },
+    {
       "name": "Log",
       "description": "Endpoints สำหรับการจัดการ Log"
     }
@@ -726,7 +730,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -742,7 +746,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -858,7 +862,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -874,7 +878,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -979,7 +983,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -995,7 +999,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -1082,7 +1086,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, ลบข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, ลบข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1098,7 +1102,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -1219,7 +1223,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                      "example": "ไม่มี Token ถูกส่งมา!"
                     }
                   }
                 }
@@ -1235,7 +1239,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -1346,7 +1350,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1362,7 +1366,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -1467,7 +1471,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1483,7 +1487,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -1570,7 +1574,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, ลบข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, ลบข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1586,7 +1590,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "TokenExpiredError!, JsonWebTokenError!, ไม่มี Token ถูกส่งมา!"
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
                     }
                   }
                 }
@@ -1603,6 +1607,570 @@
                     "message": {
                       "type": "string",
                       "example": "ไม่มี (ตารางเก็บคำระบุกลุ่มคนไข้) อยู่ในระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/contentOfMedicalRecord": {
+      "get": {
+        "tags": [
+          "ContentOfMedicalRecord"
+        ],
+        "summary": "สำหรับดึงข้อมูล ContentOfMedicalRecord",
+        "description": "สำหรับดึงข้อมูลทั้งหมดของ ContentOfMedicalRecord",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "content_of_medical_record_name": {
+                            "type": "string",
+                            "example": "Nurses' note helpful"
+                          },
+                          "na_type": {
+                            "type": "boolean",
+                            "example": "true"
+                          },
+                          "points_deducted_type": {
+                            "type": "boolean",
+                            "example": "false"
+                          },
+                          "patient_services_id": {
+                            "type": "int",
+                            "example": "2"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "created_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "updated_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/addContentOfMedicalRecord": {
+      "post": {
+        "tags": [
+          "ContentOfMedicalRecord"
+        ],
+        "summary": "สำหรับบันทึกข้อมูล ContentOfMedicalRecord",
+        "description": "สำหรับบันทึกข้อมูลทั้งหมดของ ContentOfMedicalRecord",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content_of_medical_record_name": {
+                    "type": "string",
+                    "example": "Nurses' note helpful"
+                  },
+                  "na_type": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "points_deducted_type": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "patient_services_id": {
+                    "type": "int",
+                    "example": "2"
+                  }
+                },
+                "required": [
+                  "content_of_medical_record_name",
+                  "na_type",
+                  "points_deducted_type",
+                  "patient_services_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "บันทึกข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, กรุณากรอกเป็นภาษาอังกฤษเท่านั้น, na_type ต้องกรอกเป็น Boolean เท่านั้น!, points_deducted_type ต้องกรอกเป็น Boolean เท่านั้น!, ไม่มีข้อมูลใน patient_services กรุณาเพิ่มข้อมูลก่อน!!, บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "พบข้อมูล content_of_medical_record_name ซ้ำในระบบกรุณาตรวจสอบข้อมูล!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/updateContentOfMedicalRecord/{id}": {
+      "put": {
+        "tags": [
+          "ContentOfMedicalRecord"
+        ],
+        "summary": "สำหรับอัพเดทข้อมูล ContentOfMedicalRecord",
+        "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ ContentOfMedicalRecord",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ ContentOfMedicalRecord ที่ต้องการอัพเดท"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content_of_medical_record_name": {
+                    "type": "string",
+                    "example": "Nurses' note helpful"
+                  },
+                  "na_type": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "points_deducted_type": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "patient_services_id": {
+                    "type": "int",
+                    "example": "2"
+                  }
+                },
+                "required": [
+                  "content_of_medical_record_name",
+                  "na_type",
+                  "points_deducted_type",
+                  "patient_services_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "อัพเดทข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, กรุณากรอกเป็นภาษาอังกฤษเท่านั้น!, na_type ต้องกรอกเป็น Boolean เท่านั้น!, points_deducted_type ต้องกรอกเป็น Boolean เท่านั้น!, อัพเดทข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ( Not found )",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มีข้อมูลใน patient_services กรุณาเพิ่มข้อมูลก่อน!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "พบข้อมูล content_of_medical_record_name ซ้ำในระบบกรุณาตรวจสอบข้อมูล!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/removeContentOfMedicalRecord/{id}": {
+      "delete": {
+        "tags": [
+          "ContentOfMedicalRecord"
+        ],
+        "summary": "สำหรับลบข้อมูล ContentOfMedicalRecord",
+        "description": "สำหรับลบข้อมูลทั้งหมดของ ContentOfMedicalRecord",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ ContentOfMedicalRecord ที่ต้องการลบ"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ลบข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!, ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี (id ตารางเก็บเนื้อหาเวชระเบียน) อยู่ในระบบ!"
                     }
                   }
                 }

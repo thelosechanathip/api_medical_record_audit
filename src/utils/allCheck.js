@@ -4,8 +4,8 @@ exports.capitalizeFirstLetter = async(string) => {
 }
 
 // Function ในการตรวจสอบข้อมูลว่าข้อมูลที่ถูกส่งมาเป็นภา่ษาอังกฤษอย่างเดียวใช่หรือไม่ ?
-exports.isEnglishOnly = async(text) => {
-    const englishOnlyPattern = /^[A-Za-z\s]+$/;
+exports.isEnglishOnly = async (text) => {
+    const englishOnlyPattern = /^[A-Za-z\s,'"':.]+$/;
     return englishOnlyPattern.test(text);
 }
 
