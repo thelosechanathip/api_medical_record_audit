@@ -862,7 +862,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, บันทึกข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -879,6 +879,22 @@
                     "message": {
                       "type": "string",
                       "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL ส่วนของ type_sql_name) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!"
                     }
                   }
                 }
@@ -983,7 +999,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี TypeSql อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, อัพเดทข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1000,6 +1016,22 @@
                     "message": {
                       "type": "string",
                       "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL ส่วนของ type_sql_name) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!"
                     }
                   }
                 }
@@ -1350,7 +1382,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, บันทึกข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, บันทึกข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1367,6 +1399,22 @@
                     "message": {
                       "type": "string",
                       "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่ออังกฤษ) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่อไทย) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!"
                     }
                   }
                 }
@@ -1471,7 +1519,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, มี PatientServices อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, อัพเดทข้อมูลไม่สำเร็จ!"
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, อัพเดทข้อมูลไม่สำเร็จ!"
                     }
                   }
                 }
@@ -1488,6 +1536,22 @@
                     "message": {
                       "type": "string",
                       "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่ออังกฤษ) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!, มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่อไทย) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!"
                     }
                   }
                 }
@@ -2226,6 +2290,151 @@
                     "message": {
                       "type": "string",
                       "example": "Clear log successfully!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/log/fetchDataLogContentOfMedicalRecords": {
+      "get": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "ดึงข้อมูล Log ContentOfMedicalRecords",
+        "description": "ดึงข้อมูล Log ContentOfMedicalRecords จาก Database",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "type_sqls_id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "doing_what": {
+                            "type": "string",
+                            "example": "Check ว่า content_of_medical_record_name มีข้อมูลซ้ำใน Database หรือไม่"
+                          },
+                          "sql_order": {
+                            "type": "string",
+                            "example": "SELECT content_of_medical_record_name FROM content_of_medical_records WHERE content_of_medical_record_name = 'Dischange summary : Dr., OP.'"
+                          },
+                          "query_time": {
+                            "type": "float",
+                            "example": 0.0
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "created_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "updated_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server ไม่สามารถประมวลผลคำร้องขอเนื่องจากข้อผิดพลาดของ Client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!, ไม่มีสิทธิ์ใช้งาน Function นี้!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Server ไม่สามารถประมวลผลคำร้องขอเนื่องจากข้อผิดพลาดของ Client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!, TokenExpiredError, JsonWebTokenError"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ( Not found )",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No data found!"
                     }
                   }
                 }

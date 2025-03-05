@@ -1,7 +1,7 @@
 const db_m = require('../../config/db_m');
 const { capitalizeFirstLetter } = require('../../utils/allCheck');
 
-// ฟังก์ชันสำหรับดึงข้อมูล Table content_of_medical_records จากฐานข้อมูล
+// Function สำหรับดึงข้อมูล Table content_of_medical_records จากฐานข้อมูล
 exports.fetchContentOfMedicalRecordsData = async(fullname) => {
     try {
         const sql_1 = 'SELECT * FROM content_of_medical_records';

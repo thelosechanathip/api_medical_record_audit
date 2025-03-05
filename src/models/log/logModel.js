@@ -1,6 +1,6 @@
 const db_m = require('../../config/db_m');
 
-exports.clearLog = async() => {
+exports.clearLog = async () => {
     try {
         // ลบข้อมูลจากตาราง log_content_of_medical_records
         const [removeLogContentOfMedicalRecordsResult] = await db_m.query('DELETE FROM log_content_of_medical_records');
@@ -56,5 +56,15 @@ exports.clearLog = async() => {
     } catch (err) {
         console.error(err.message);
         throw new Error("Failed to clear log data");
+    }
+}
+
+exports.fetchDataLogContentOfMedicalRecordsAll = async () => {
+    try {
+        const [result] = await db_m.query('SELECT * FROM log_content_of_medical_records');
+        return result;
+    } catch (err) {
+        console.error(err.message);
+        throw new Error("Failed to fetchDataLogContentOfMedicalRecordsAll");
     }
 }

@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { authAdminSetting } = require('../../middleware/auth/authAdmin');
-const { removeDataLog } = require('../../controllers/log/logController');
+const { removeDataLog, fetchDataLogContentOfMedicalRecords } = require('../../controllers/log/logController');
 
 router.delete('/clearLog', authAdminSetting, removeDataLog)
+router.get('/fetchDataLogContentOfMedicalRecords', authAdminSetting, fetchDataLogContentOfMedicalRecords)
 
 module.exports = router;

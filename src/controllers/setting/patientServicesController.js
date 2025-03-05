@@ -38,13 +38,13 @@ exports.addDataPatientServices = async (req, res) => {
         // Check patient_services_name_english ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
         const checkPatientServicesNameEnglishDataResult = await checkPatientServicesNameEnglishData(patient_services_name_english);
         if (checkPatientServicesNameEnglishDataResult) {
-            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่ออังกฤษ) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+            return msg(res, 409, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่ออังกฤษ) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
         
         // Check patient_services_name_thai ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
         const checkPatientServicesNameThaiDataResult = await checkPatientServicesNameThaiData(patient_services_name_thai);
         if (checkPatientServicesNameThaiDataResult) {
-            return msg(res, 400, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่อไทย) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+            return msg(res, 409, { message: 'มี PatientServices (ตารางเก็บคำระบุกลุ่มคนไข้ ชื่อไทย) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // เพิ่มข้อมูลลงในฐานข้อมูล

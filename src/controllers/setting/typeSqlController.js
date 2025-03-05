@@ -35,7 +35,7 @@ exports.addDataTypeSql = async (req, res) => {
         // Check type_sql_name ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
         const checkTypeSqlNameDataResult = await checkTypeSqlNameData(type_sql_name);
         if (checkTypeSqlNameDataResult) {
-            return msg(res, 400, { message: 'มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+            return msg(res, 409, { message: 'มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL ส่วนของ type_sql_name) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // เพิ่มข้อมูลลงในฐานข้อมูล
@@ -71,7 +71,7 @@ exports.updateDataTypeSql = async (req, res) => {
         // Check type_sql_name ว่ามีข้อมูลอยู่แล้วในระบบหรือไม่?
         const checkTypeSqlNameDataResult = await checkTypeSqlNameData(type_sql_name);
         if (checkTypeSqlNameDataResult) {
-            return msg(res, 400, { message: 'มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
+            return msg(res, 409, { message: 'มี TypeSql (ตารางเก็บประเภทของการดำเนินการ SQL ส่วนของ type_sql_name) อยู่ในระบบแล้ว ไม่อนุญาตให้บันทึกข้อมูลซ้ำ!' });
         }
 
         // อัพเดทข้อมูลลงในฐานข้อมูล
