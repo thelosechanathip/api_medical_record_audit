@@ -6,9 +6,11 @@ const {
     checkNationalIdMedicalRecordAudit,
     addDataUser,
     fetchOneUser,
+    addAuthToken,
     checkUserId,
     removeUser,
-    addLogLogout
+    addLogLogout,
+    changeVerified
 } = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -18,6 +20,7 @@ const CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const NodeCache = require("node-cache");
 const otpCache = new NodeCache({ stdTTL: 300 }); // รหัส OTP หมดอายุใน 5 นาที (300 วินาที)
+const moment = require('moment');
 const { statusOtp } = require('../../utils/statusOtp');
 
 // ฟังก์ชันสร้างรหัส OTP (เฉพาะตัวเลข)
@@ -50,7 +53,7 @@ const sendEmail = async (email, otpCode) => {
     }
 };
 
-// ฟังก์ชั่น generate User
+// Function generate User
 exports.authRegister = async (req, res) => {
     try {
         const bytes = CryptoJS.AES.decrypt(req.body.national_id, process.env.SECRET_KEY);
@@ -73,7 +76,7 @@ exports.authRegister = async (req, res) => {
     }
 };
 
-// ฟังก์ชันล็อกอิน
+// Function Login
 exports.authLogin = async (req, res) => {
     try {
         const { username } = req.body;
@@ -98,10 +101,11 @@ exports.authLogin = async (req, res) => {
             );            
 
             // สร้างและส่ง OTP ไปยัง Email
-            const otpCode = generateOtp(email);  // เปลี่ยนจาก chatId เป็น email
+            const otpCode = generateOtp(email);
             await sendEmail(email, otpCode); // ส่ง OTP ไปยังอีเมล์
             if (token) {
                 try {
+                    await addAuthToken(token);
                     return msg(res, 200, { 
                         token,
                         email: email 
@@ -142,8 +146,7 @@ exports.authVerifyOtp = async (req, res) => {
         
         if (cachedOtp === otpCode) {
             // OTP ถูกต้อง, อาจจะทำการสร้าง JWT หรือทำงานต่อ
-            statusOtp.valid = true;
-            statusOtp.tokenValid = token;
+            await changeVerified(token);
             return msg(res, 200, { message: "Login successfully!" });
         } else {
             return msg(res, 400, { message: "OTP ไม่ถูกต้อง" });
@@ -216,8 +219,6 @@ exports.authLogout = async (req, res) => {
         if(statusOtp.valid != true) {
             return msg(res, 200, { message: "Logout successfully!" });
         } else {
-            statusOtp.valid = false;
-            statusOtp.tokenValid = '';
             return msg(res, 200, { message: "Logout successfully!" });
         }
     } catch (err) {

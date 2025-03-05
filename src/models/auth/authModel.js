@@ -1,6 +1,8 @@
 const db_b = require('../../config/db_b');
 const db_m = require('../../config/db_m');
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
+const moment = require('moment');
 
 // ตรวจสอบ Username บน Database = Medical Record Audit ใน Table = users
 exports.checkUsernameData = async(username) => {
@@ -225,6 +227,42 @@ exports.fetchOneUser = async (id) => {
     } catch (err) {
         console.error("Database error:", err.message);
         throw new Error("Failed to fetch user data");
+    }
+}
+
+// Function สำหรับบันทึกข้อมูล Token ไปยัง Table auth_tokens
+exports.addAuthToken = async (token) => {
+    try {
+        const dataToken = await jwt.verify(token, process.env.SECRET_KEY);
+        const exp = moment.unix(dataToken.exp).format('YYYY-MM-DD HH:mm:ss');
+        
+        const sql_1 = `
+            INSERT INTO auth_tokens(token, user_id, expires_at) VALUES(?, ?, ?)
+        `;
+        const [addAuthTokenResult] = await db_m.query(sql_1, [token, dataToken.userId, exp]);
+
+        return addAuthTokenResult.affectedRows > 0;
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to addAuthToken");
+    }
+} 
+
+// Function สำหรับแก้ไขข้อมูล otp_verified ไปยัง Table auth_tokens
+exports.changeVerified = async (token) => {
+    try {
+        const dataToken = await jwt.verify(token, process.env.SECRET_KEY);
+
+        const sql_1 = `
+            UPDATE auth_tokens
+            SET
+                otp_verified = ?
+            WHERE token = ?
+        `;
+        const [updateOtpVerifiedResult] = await db_m.query(sql_1, [true, token]);
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to changeVerified");
     }
 }
 

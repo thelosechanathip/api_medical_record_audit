@@ -28,7 +28,15 @@ async function testDatabaseMedicalRecordAuditConnection() {
 // ทดสอบการเชื่อมต่อฐานข้อมูลก่อนเริ่มเซิร์ฟเวอร์
 testDatabaseBackofficeConnection().then(() => {
   testDatabaseMedicalRecordAuditConnection().then(() => {
-      app.listen(PORT, () => {
+      app.listen(PORT, async () => {
+          await db_m.query(
+            `
+              UPDATE auth_tokens
+              SET 
+                otp_verified = ?,
+                is_active = ?
+            `,[false, false]
+          );
           console.log(`Server is running on port ${PORT}`);
       });
   });

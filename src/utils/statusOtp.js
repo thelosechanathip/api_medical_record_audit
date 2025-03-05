@@ -1,3 +1,3 @@
-const statusOtp = { valid: false, tokenValid: '' };
+// const statusOtp = { valid: false, tokenValid: '' };
 
-module.exports = { statusOtp };
+// module.exports = { statusOtp };

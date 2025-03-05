@@ -2,7 +2,6 @@ const db_m = require('../../config/db_m');
 const CryptoJS = require("crypto-js");
 const { msg } = require('../../utils/message');
 const jwt = require("jsonwebtoken");
-const { statusOtp } = require('../../utils/statusOtp');
 
 // สำหรับตรวจสอบสิทธิ์การเข้าใช้งานระบบโดยทั่วไป
 exports.authCheckToken = async (req, res, next) => {
@@ -14,9 +13,6 @@ exports.authCheckToken = async (req, res, next) => {
         // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 401, { message: 'Token ไม่ถูกต้อง!' });
-
-        const { valid, tokenValid } = statusOtp;
-        if(valid === false || valid === '' || token != tokenValid) return msg(res, 401, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
 
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, fullname, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         req.user = fetchOneStatusUserResult;
@@ -70,8 +66,11 @@ exports.authAdminSetting = async(req, res, next) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 401, { message: "Token ไม่ถูกต้อง!" });
 
-        const { valid, tokenValid } = statusOtp;
-        if(valid === false || valid === '' || token != tokenValid) return msg(res, 401, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+        const [checkOtpVerified] = await db_m.query('SELECT otp_verified FROM auth_tokens WHERE token = ?', [token]);
+        if(checkOtpVerified[0].otp_verified === 0) return msg(res, 401, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+        
+        const [checkIsActive] = await db_m.query('SELECT is_active FROM auth_tokens WHERE token = ?', [token]);
+        if(checkIsActive[0].is_active === 0) return msg(res, 400, { message: 'Tokenไม่อนุญาติให้ใช้งาน!' });
 
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, fullname, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         if(fetchOneStatusUserResult[0].status != "ADMIN") return msg(res, 400, { message: "ไม่มีสิทธิ์ใช้งาน Function นี้!!" });
