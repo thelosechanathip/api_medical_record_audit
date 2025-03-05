@@ -10,7 +10,8 @@ const {
     checkUserId,
     removeUser,
     addLogLogout,
-    changeVerified
+    changeVerified,
+    checkOtpVerifiedIsActive
 } = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -168,6 +169,10 @@ exports.authVerifyToken = async (req, res) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 400, { message: 'Token ไม่ถูกต้องกรุณาตรวจสอบ!' });
 
+        const checkOtpVerifiedIsActiveResult = await checkOtpVerifiedIsActive(token);
+        if(checkOtpVerifiedIsActiveResult[0].otp_verified === 0) return msg(res, 401, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+        if(checkOtpVerifiedIsActiveResult[0].is_active === 0) return msg(res, 400, { message: 'Token ไม่อนุญาติให้ใช้งาน!' });
+
         const fetchOneUserResult = await fetchOneUser(decoded.userId);
         if (!Array.isArray(fetchOneUserResult) || fetchOneUserResult.length === 0) {
             return msg(res, 404, { message: "No data found" });
@@ -216,11 +221,7 @@ exports.authLogout = async (req, res) => {
 
         if(!addLogLogoutResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!");
 
-        if(statusOtp.valid != true) {
-            return msg(res, 200, { message: "Logout successfully!" });
-        } else {
-            return msg(res, 200, { message: "Logout successfully!" });
-        }
+        return msg(res, 200, { message: "Logout successfully!" });
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
             return msg(res, 401, 'TokenExpiredError!');

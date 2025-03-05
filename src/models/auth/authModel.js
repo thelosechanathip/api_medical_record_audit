@@ -266,6 +266,17 @@ exports.changeVerified = async (token) => {
     }
 }
 
+// Function สำหรับดึงข้อมูล Field otp_verified && is_active บน Table auth_tokens
+exports.checkOtpVerifiedIsActive = async (token) => {
+    try {
+        const [result] = await db_m.query('SELECT otp_verified, is_active FROM auth_tokens WHERE token = ?', [token]);
+        return result;
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to checkOtpVerifiedIsActive");
+    }
+}
+
 // Check User id ของ id ที่ส่งมา
 exports.checkUserId = async (id, fullname) => {
     try {
