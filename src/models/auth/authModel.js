@@ -345,6 +345,56 @@ exports.removeUser = async (id, fullname) => {
     }
 }
 
+// Function ในการเพิ่มข้อมูล Token ไปยัง Table token_blacklist และอัพเดท field is_active ของ Taable auth_tokens
+exports.addBlackListToken = async (data, fullname) => {
+    try {
+        const sql_1 = 'INSERT INTO token_blacklist(token, expires_at) VALUES(?, ?)';
+        const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+        const [addTokenBlackListResult] = await db_m.query(sql_1, [data.token, data.expires_at]);
+        const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+        const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+        
+        const executedSQL_1 = db_m.format(sql_1, [data.token, data.expires_at]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+        if(addTokenBlackListResult.affectedRows > 0) {
+            const [typeSqlIdResult_1] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'INSERT'`);
+            const doing_what_1 = 'บันทึกข้อมูล Token Blacklist';
+
+            await db_m.query(
+                `
+                    INSERT INTO log_login_logout (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                    VALUES(?, ?, ?, ?, ?, ?)
+                `,
+                [typeSqlIdResult_1[0].id, doing_what_1, executedSQL_1, durationInMinutes_1, fullname, fullname]
+            );
+
+            const sql_2 = `UPDATE auth_tokens SET is_active = ?`;
+            const startTime_2 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
+            const [updateAuthTokensResult] = await db_m.query(sql_2, [false]);
+            const endTime_2 = Date.now(); // เวลาสิ้นสุดหลังการ Query
+            const durationInMinutes_2 = ((endTime_2 - startTime_2) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
+            
+            const executedSQL_2 = db_m.format(sql_2, [false]).replace(/\s+/g, ' ').trim(); // ลบช่องว่างหน้า-หลัง
+            if(updateAuthTokensResult.affectedRows > 0) {
+                const [typeSqlIdResult_2] = await db_m.query(`SELECT id FROM type_sqls WHERE type_sql_name = 'UPDATE'`);
+                const doing_what_2 = 'อัพเดทข้อมูล Auth Tokens';
+
+                await db_m.query(
+                    `
+                        INSERT INTO log_login_logout (type_sqls_id, doing_what, sql_order, query_time, created_by, updated_by)
+                        VALUES(?, ?, ?, ?, ?, ?)
+                    `,
+                    [typeSqlIdResult_2[0].id, doing_what_2, executedSQL_2, durationInMinutes_2, fullname, fullname]
+                );
+                return true;
+            }
+        }
+        return false;
+    } catch (err) {
+        console.error("Database error:", err.message);
+        throw new Error("Failed to addBlackListToken");
+    }
+}
+
 // เพิ่มข้อมูลไปยัง log_login_logout เมื่อมีการ Logout ออกจากระบบ
 exports.addLogLogout = async (fullname) => {
     try {

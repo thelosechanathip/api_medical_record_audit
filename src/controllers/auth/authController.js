@@ -11,7 +11,8 @@ const {
     removeUser,
     addLogLogout,
     changeVerified,
-    checkOtpVerifiedIsActive
+    checkOtpVerifiedIsActive,
+    addBlackListToken
 } = require("../../models/auth/authModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -215,8 +216,23 @@ exports.authRemoveUser = async(req, res) => {
 
 // Function สำหรับการ Logout ออกจากระบบ
 exports.authLogout = async (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return msg(res, 400, { message: 'ไม่มี Token ถูกส่งมา!' });
+
+    const token = authHeader.split(' ')[1];
     try {
+        // Verify token
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const { fullname } = req.user[0];
+
+        const data = {
+            token: token,
+            expires_at: decoded.exp
+        }
+
+        const addBlackListTokenResult = await addBlackListToken(data, fullname);
+        if(!addBlackListTokenResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!")
+        
         const addLogLogoutResult = await addLogLogout(fullname);
 
         if(!addLogLogoutResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!");

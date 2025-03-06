@@ -1057,7 +1057,7 @@
         }
       }
     },
-    "/api/setting/deleteTypeSql/{id}": {
+    "/api/setting/removeTypeSql/{id}": {
       "delete": {
         "tags": [
           "TypeSql"
@@ -1577,7 +1577,7 @@
         }
       }
     },
-    "/api/setting/deletePatientServices/{id}": {
+    "/api/setting/removePatientServices/{id}": {
       "delete": {
         "tags": [
           "PatientServices"

@@ -14,6 +14,15 @@ exports.authCheckToken = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 401, { message: 'Token ไม่ถูกต้อง!' });
 
+        const [checkBlackListToken] = await db_m.query('SELECT token FROM token_blacklist WHERE token = ?', [token]);
+        if(checkBlackListToken.length > 0) return msg(res, 400, { message: 'Tokenไม่อนุญาติให้ใช้งาน!' });
+
+        const [checkOtpVerified] = await db_m.query('SELECT otp_verified FROM auth_tokens WHERE token = ?', [token]);
+        if(checkOtpVerified[0].otp_verified === 0) return msg(res, 401, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
+        
+        const [checkIsActive] = await db_m.query('SELECT is_active FROM auth_tokens WHERE token = ?', [token]);
+        if(checkIsActive[0].is_active === 0) return msg(res, 400, { message: 'Tokenไม่อนุญาติให้ใช้งาน!' });
+
         const [fetchOneStatusUserResult] = await db_m.query('SELECT id, fullname, password, status FROM users WHERE id = ? LIMIT 1', [decoded.userId]);
         req.user = fetchOneStatusUserResult;
 
@@ -65,6 +74,9 @@ exports.authAdminSetting = async(req, res, next) => {
         // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) return msg(res, 401, { message: "Token ไม่ถูกต้อง!" });
+
+        const [checkBlackListToken] = await db_m.query('SELECT token FROM token_blacklist WHERE token = ?', [token]);
+        if(checkBlackListToken.length > 0) return msg(res, 400, { message: 'Tokenไม่อนุญาติให้ใช้งาน!' });
 
         const [checkOtpVerified] = await db_m.query('SELECT otp_verified FROM auth_tokens WHERE token = ?', [token]);
         if(checkOtpVerified[0].otp_verified === 0) return msg(res, 401, { message: 'ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!' });
