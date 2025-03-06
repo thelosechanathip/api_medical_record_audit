@@ -4,7 +4,21 @@ const { capitalizeFirstLetter } = require('../../utils/allCheck');
 // Function สำหรับดึงข้อมูล Table content_of_medical_records จากฐานข้อมูล
 exports.fetchContentOfMedicalRecordsData = async(fullname) => {
     try {
-        const sql_1 = 'SELECT * FROM content_of_medical_records';
+        const sql_1 = `
+            SELECT 
+                comr.id, 
+                comr.content_of_medical_record_name,
+                comr.na_type,
+                comr.points_deducted_type,
+                ps.patient_services_name_english,
+                ps.patient_services_name_thai,
+                comr.created_at,
+                comr.created_by,
+                comr.updated_at,
+                comr.updated_by
+            FROM content_of_medical_records AS comr
+            LEFT OUTER JOIN patient_services AS ps ON comr.patient_services_id = ps.id
+        `;
         const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
         const [result_1] = await db_m.query(sql_1);
         const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
