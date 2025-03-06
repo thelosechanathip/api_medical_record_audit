@@ -87,7 +87,7 @@ async function checkBlackListTokensExpired() {
 
           // รีเซ็ตค่า AUTO_INCREMENT
           await db_m.query('ALTER TABLE token_blacklist AUTO_INCREMENT = ?', [nextAutoIncrement]);
-          console.log('Remove Token ที่หมดเวลาเสร็จสิ้น!!');
+          console.log('Remove Token BlackListTokens ที่หมดเวลาเสร็จสิ้น!!');
         }
       }
     }
@@ -124,7 +124,7 @@ async function checkAuthTokensExpired() {
 
               // รีเซ็ตค่า AUTO_INCREMENT
               await db_m.query('ALTER TABLE auth_tokens AUTO_INCREMENT = ?', [nextAutoIncrement]);
-              console.log('Remove Token ที่หมดเวลาเสร็จสิ้น!!');
+              console.log('Remove Token AuthTokens ที่หมดเวลาเสร็จสิ้น!!');
             }
             
           } else {

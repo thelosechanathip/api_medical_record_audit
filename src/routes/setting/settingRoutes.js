@@ -4,6 +4,7 @@ const { authAdminSetting } = require('../../middleware/auth/authAdmin');
 const { getAllDataTypeSql, addDataTypeSql, updateDataTypeSql, removeDataTypeSql } = require('../../controllers/setting/typeSqlController'); // require SettingController
 const { getAllDataPatientServices, addDataPatientServices, updateDataPatientServices, removeDataPatientServices } = require('../../controllers/setting/patientServicesController'); // require SettingController
 const { getAllDataContentOfMedicalRecord, addDataContentOfMedicalRecord, updateDataContentOfMedicalRecord, removeDataContentOfMedicalRecord } = require('../../controllers/setting/contentOfMedicalRecordsController'); // require SettingController
+const { getAllDataOverallFinding, addDataOverallFinding, updateDataOverallFinding, removeDataOverallFinding } = require('../../controllers/setting/overallFindingController'); // require SettingController
 
 // @ENDPOINT = http://localhost:3715/api_m/
 router.get('/typeSql', authAdminSetting, getAllDataTypeSql);
@@ -22,5 +23,11 @@ router.get('/contentOfMedicalRecord', authAdminSetting, getAllDataContentOfMedic
 router.post('/addContentOfMedicalRecord', authAdminSetting, addDataContentOfMedicalRecord);
 router.put('/updateContentOfMedicalRecord/:id', authAdminSetting, updateDataContentOfMedicalRecord);
 router.delete('/removeContentOfMedicalRecord/:id', authAdminSetting, removeDataContentOfMedicalRecord);
+
+// @ENDPOINT = http://localhost:3715/api_m/
+router.get('/overallFinding', authAdminSetting, getAllDataOverallFinding);
+router.post('/addOverallFinding', authAdminSetting, addDataOverallFinding);
+router.put('/updateOverallFinding/:id', authAdminSetting, updateDataOverallFinding);
+router.delete('/removeOverallFinding/:id', authAdminSetting, removeDataOverallFinding);
 
 module.exports = router;

@@ -368,9 +368,9 @@ exports.addBlackListToken = async (data, fullname) => {
                 [typeSqlIdResult_1[0].id, doing_what_1, executedSQL_1, durationInMinutes_1, fullname, fullname]
             );
 
-            const sql_2 = `UPDATE auth_tokens SET is_active = ?`;
+            const sql_2 = `UPDATE auth_tokens WHERE token = ? SET is_active = ?`;
             const startTime_2 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
-            const [updateAuthTokensResult] = await db_m.query(sql_2, [false]);
+            const [updateAuthTokensResult] = await db_m.query(sql_2, [data.token, false]);
             const endTime_2 = Date.now(); // เวลาสิ้นสุดหลังการ Query
             const durationInMinutes_2 = ((endTime_2 - startTime_2) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
             
