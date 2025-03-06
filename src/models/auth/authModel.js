@@ -350,7 +350,8 @@ exports.addBlackListToken = async (data, fullname) => {
     try {
         const sql_1 = 'INSERT INTO token_blacklist(token, expires_at) VALUES(?, ?)';
         const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
-        const [addTokenBlackListResult] = await db_m.query(sql_1, [data.token, data.expires_at]);
+        const exp = moment.unix(data.expires_at).format('YYYY-MM-DD HH:mm:ss');
+        const [addTokenBlackListResult] = await db_m.query(sql_1, [data.token, exp]);
         const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
         const durationInMinutes_1 = ((endTime_1 - startTime_1) / 1000 / 60).toFixed(4); // รวมเวลาเริ่มต้นและสิ้นสุดของการ Query เพื่อมาว่าใช้เวลาในการ Query เท่าไหร่?
         
