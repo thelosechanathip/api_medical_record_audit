@@ -3,7 +3,19 @@ const db_m = require('../../config/db_m');
 // Function สำหรับดึงข้อมูล Table overall_finding จากฐานข้อมูล
 exports.fetchOverallFindingData = async (fullname) => {
     try {
-        const sql_1 = 'SELECT * FROM overall_finding';
+        const sql_1 = `
+            SELECT 
+                of.id,
+                of.overall_finding_name,
+                ps.patient_services_name_english,
+                ps.patient_services_name_thai,
+                of.created_at,
+                of.created_by,
+                of.updated_at,
+                of.updated_by
+            FROM overall_finding AS of
+            LEFT OUTER JOIN patient_services AS ps ON of.patient_services_id = ps.id
+        `;
         const startTime_1 = Date.now(); // เวลาเริ่มต้นก่อนการ Query
         const [result_1] = await db_m.query(sql_1);
         const endTime_1 = Date.now(); // เวลาสิ้นสุดหลังการ Query
