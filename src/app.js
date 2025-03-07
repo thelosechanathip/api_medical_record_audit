@@ -142,7 +142,6 @@ function startBlacklistScheduler() {
   checkAuthTokensExpired();
   checkBlackListTokensExpired();
 
-  // ตั้งตารางทุก 1 นาที
   schedule.scheduleJob('0 * * * *', async () => {
       console.log('Scheduled blacklist update starting...');
       await checkAuthTokensExpired();

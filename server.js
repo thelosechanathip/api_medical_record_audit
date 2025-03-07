@@ -15,13 +15,25 @@ async function testDatabaseBackofficeConnection() {
 }
 
 // ฟังก์ชันทดสอบการเชื่อมต่อฐานข้อมูล
-async function testDatabaseMedicalRecordAuditConnection() {
-  try {
-    await db_m.query("SELECT 1"); // ทดสอบ query ง่ายๆ
-    // console.log("Database medical record audit connected successfully");
-  } catch (error) {
-    console.error("Error connecting to the database:", error.message);
-    process.exit(1); // หยุดการทำงานของเซิร์ฟเวอร์หากไม่สามารถเชื่อมต่อฐานข้อมูลได้
+async function testDatabaseMedicalRecordAuditConnection(retries = 3, delay = 1000) {
+  let connection;
+  for (let i = 0; i < retries; i++) {
+    try {
+      connection = await db_m.getConnection();
+      await connection.query("SELECT 1");
+      console.log("Database medical record audit connected successfully");
+      return; // สำเร็จแล้ว ออกจากฟังก์ชัน
+    } catch (error) {
+      if (error.message.includes("Too many connections") && i < retries - 1) {
+        console.warn(`Attempt ${i + 1} failed. Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      console.error("Error connecting to the database:", error.message);
+      process.exit(1);
+    } finally {
+      if (connection) connection.release();
+    }
   }
 }
 
