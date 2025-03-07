@@ -37,6 +37,10 @@
       "description": "Endpoints สำหรับการจัดการตารางเก็บการค้นพบโดยรวม"
     },
     {
+      "name": "ReviewStatus",
+      "description": "Endpoints สำหรับการจัดการตารางเก็บสถานะการตรวจสอบ"
+    },
+    {
       "name": "Log",
       "description": "Endpoints สำหรับการจัดการ Log"
     }
@@ -2795,6 +2799,590 @@
                     "message": {
                       "type": "string",
                       "example": "ไม่มี (id ตารางเก็บการค้นพบโดยรวม) อยู่ในระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/reviewStatus": {
+      "get": {
+        "tags": [
+          "ReviewStatus"
+        ],
+        "summary": "สำหรับดึงข้อมูล ReviewStatus",
+        "description": "สำหรับดึงข้อมูลทั้งหมดของ ReviewStatus",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "review_status_name": {
+                            "type": "string",
+                            "example": "Documentation inadequate for meaningful review"
+                          },
+                          "review_status_description": {
+                            "type": "string",
+                            "example": "ข้อมูลไม่เพียงพอสำหรับการทบทวน"
+                          },
+                          "review_status_type": {
+                            "type": "string",
+                            "example": "0"
+                          },
+                          "patient_services_name_english": {
+                            "type": "string",
+                            "example": "IPD"
+                          },
+                          "patient_services_name_thai": {
+                            "type": "string",
+                            "example": "ผู้ป่วยใน"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "created_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-19T08:55:57.000Z"
+                          },
+                          "updated_by": {
+                            "type": "string",
+                            "example": "ADMIN"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/addReviewStatus": {
+      "post": {
+        "tags": [
+          "ReviewStatus"
+        ],
+        "summary": "สำหรับบันทึกข้อมูล ReviewStatus",
+        "description": "สำหรับบันทึกข้อมูลทั้งหมดของ ReviewStatus",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "review_status_name": {
+                    "type": "string",
+                    "example": "Documentation inadequate for meaningful review"
+                  },
+                  "review_status_description": {
+                    "type": "string",
+                    "example": "ข้อมูลไม่เพียงพอสำหรับการทบทวน"
+                  },
+                  "review_status_type": {
+                    "type": "boolean",
+                    "example": "true || false"
+                  },
+                  "patient_services_id": {
+                    "type": "int",
+                    "example": "2"
+                  }
+                },
+                "required": [
+                  "review_status_name",
+                  "review_status_description",
+                  "review_status_type",
+                  "patient_services_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "บันทึกข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา! || กรุณากรอกข้อมูลให้ครบถ้วน || บันทึกข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError! || JsonWebTokenError! || Token ไม่ถูกต้อง! || ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ( Not found )",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มีข้อมูลใน patient_services กรุณาเพิ่มข้อมูลก่อน!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "พบข้อมูล review_status_name ซ้ำในระบบกรุณาตรวจสอบข้อมูล!! || พบข้อมูล review_status_description ซ้ำในระบบกรุณาตรวจสอบข้อมูล!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/updateReviewStatus/{id}": {
+      "put": {
+        "tags": [
+          "ReviewStatus"
+        ],
+        "summary": "สำหรับอัพเดทข้อมูล ReviewStatus",
+        "description": "สำหรับอัพเดทข้อมูลทั้งหมดของ ReviewStatus",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ ReviewStatus ที่ต้องการอัพเดท"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "review_status_name": {
+                    "type": "string",
+                    "example": "No significant medical record issue identified"
+                  },
+                  "review_status_description": {
+                    "type": "string",
+                    "example": "ไม่มีปัญหาสำคัญจากการทบทวน"
+                  },
+                  "review_status_type": {
+                    "type": "string",
+                    "example": "0"
+                  },
+                  "patient_services_id": {
+                    "type": "int",
+                    "example": "2"
+                  }
+                },
+                "required": [
+                  "review_status_name",
+                  "review_status_description",
+                  "review_status_type",
+                  "patient_services_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "อัพเดทข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!, กรุณากรอกข้อมูลให้ครบถ้วน, อัพเดทข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ( Not found )",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี (id ตารางเก็บสถานะการตรวจสอบ) อยู่ในระบบ! || ไม่มีข้อมูลใน patient_services กรุณาเพิ่มข้อมูลก่อน!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "คำร้องขอไม่สามารถดำเนินการได้เนื่องจากขัดแย้งกับสถานะปัจจุบันของทรัพยากรที่ต้องการอัพเดท",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "พบข้อมูล review_status_name ซ้ำในระบบกรุณาตรวจสอบข้อมูล!! || พบข้อมูล review_status_description ซ้ำในระบบกรุณาตรวจสอบข้อมูล!!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ข้อผิดพลาดเซิร์ฟเวอร์",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server errors"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/removeReviewStatus/{id}": {
+      "delete": {
+        "tags": [
+          "ReviewStatus"
+        ],
+        "summary": "สำหรับลบข้อมูล ReviewStatus",
+        "description": "สำหรับลบข้อมูลทั้งหมดของ ReviewStatus",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "description": "Token จากการล็อกอิน ส่งในรูปแบบ Bearer Token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID ของ ReviewStatus ที่ต้องการลบ"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ความสำเร็จทั่วไป",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ลบข้อมูลเสร็จสิ้น!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ข้อมูลจาก Client ไม่ถูกต้อง",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี Token ถูกส่งมา!, ลบข้อมูลไม่สำเร็จ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ต้องยืนยันตัวตน",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "TokenExpiredError!, JsonWebTokenError!, Token ไม่ถูกต้อง!, ไม่มีการยืนยันตัวตนด้วย OTP กรุณายืนยันตัวตนก่อนใช้งานระบบ!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource ไม่พบ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ไม่มี (id ตารางเก็บสถานะการตรวจสอบ) อยู่ในระบบ!"
                     }
                   }
                 }

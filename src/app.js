@@ -106,29 +106,27 @@ async function checkAuthTokensExpired() {
       }
 
       for(const authTokens of fetchAllAuthTokensResult) {
-        if(authTokens.is_active === 0) {
-          const expiresAtIso = authTokens.expires_at;
-          const expiresAt = moment(expiresAtIso).format('YYYY-MM-DD HH:mm:ss');
-
-          const date = new Date();
-          const dateNow = moment(date).format('YYYY-MM-DD HH:mm:ss');
+        // if(authTokens.is_active === 0) {
           
-          if(dateNow === expiresAt || dateNow > expiresAt) {
-            const sql_1 = `DELETE FROM auth_tokens WHERE token = ?`;
-            const [deleteResult_1] = await db_m.query(sql_1, [authTokens.token]);
+        // }
+        const expiresAtIso = authTokens.expires_at;
+        const expiresAt = moment(expiresAtIso).format('YYYY-MM-DD HH:mm:ss');
 
-            if (deleteResult_1.affectedRows > 0) {
-              // หาค่า MAX(id) จากตาราง auth_tokens เพื่อคำนวณค่า AUTO_INCREMENT ใหม่
-              const [maxIdResult] = await db_m.query('SELECT MAX(id) AS maxId FROM auth_tokens');
-              const nextAutoIncrement = (maxIdResult[0].maxId || 0) + 1;
+        const date = new Date();
+        const dateNow = moment(date).format('YYYY-MM-DD HH:mm:ss');
+        
+        if(dateNow === expiresAt || dateNow > expiresAt) {
+          const sql_1 = `DELETE FROM auth_tokens WHERE token = ?`;
+          const [deleteResult_1] = await db_m.query(sql_1, [authTokens.token]);
 
-              // รีเซ็ตค่า AUTO_INCREMENT
-              await db_m.query('ALTER TABLE auth_tokens AUTO_INCREMENT = ?', [nextAutoIncrement]);
-              console.log('Remove Token AuthTokens ที่หมดเวลาเสร็จสิ้น!!');
-            }
-            
-          } else {
-            
+          if (deleteResult_1.affectedRows > 0) {
+            // หาค่า MAX(id) จากตาราง auth_tokens เพื่อคำนวณค่า AUTO_INCREMENT ใหม่
+            const [maxIdResult] = await db_m.query('SELECT MAX(id) AS maxId FROM auth_tokens');
+            const nextAutoIncrement = (maxIdResult[0].maxId || 0) + 1;
+
+            // รีเซ็ตค่า AUTO_INCREMENT
+            await db_m.query('ALTER TABLE auth_tokens AUTO_INCREMENT = ?', [nextAutoIncrement]);
+            console.log('Remove Token AuthTokens ที่หมดเวลาเสร็จสิ้น!!');
           }
         }
       }     

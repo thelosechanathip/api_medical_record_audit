@@ -396,6 +396,7 @@ exports.addBlackListToken = async (data, fullname) => {
         throw new Error("Failed to addBlackListToken");
     }
 };
+
 // เพิ่มข้อมูลไปยัง log_login_logout เมื่อมีการ Logout ออกจากระบบ
 exports.addLogLogout = async (fullname) => {
     try {

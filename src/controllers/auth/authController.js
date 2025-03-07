@@ -230,8 +230,8 @@ exports.authLogout = async (req, res) => {
             expires_at: decoded.exp
         }
 
-        const addBlackListTokenResult = await addBlackListToken(data, fullname);
-        if(!addBlackListTokenResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!")
+        const addBlackListTokenResult = await addBlackListToken(data);
+        if(!addBlackListTokenResult) return msg(res, 400, "เกิดข้อผิดพลาดระหว่างการทำงานกรุณาติดต่อ Admin ของระบบ!");
         
         const addLogLogoutResult = await addLogLogout(fullname);
 
