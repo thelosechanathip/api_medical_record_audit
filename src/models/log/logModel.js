@@ -12,26 +12,6 @@ exports.clearLog = async () => {
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
         if (removeLogLoginLogoutResult.affectedRows > 0) await db_m.query('ALTER TABLE log_login_logout AUTO_INCREMENT = 1');
         
-        // ลบข้อมูลจากตาราง log_medical_record_audit_form_ipds
-        const [removeLogMedicalRecordAuditFormIpdsResult] = await db_m.query('DELETE FROM log_medical_record_audit_form_ipds');
-        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (removeLogMedicalRecordAuditFormIpdsResult.affectedRows > 0) await db_m.query('ALTER TABLE log_medical_record_audit_form_ipds AUTO_INCREMENT = 1');
-        
-        // ลบข้อมูลจากตาราง log_medical_record_audit_form_ipds_on_overall_finding
-        const [removeLogMedicalRecordAuditFormIpdsOnOverallFindingResult] = await db_m.query('DELETE FROM log_medical_record_audit_form_ipds_on_overall_finding');
-        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (removeLogMedicalRecordAuditFormIpdsOnOverallFindingResult.affectedRows > 0) await db_m.query('ALTER TABLE log_medical_record_audit_form_ipds_on_overall_finding AUTO_INCREMENT = 1');
-        
-        // ลบข้อมูลจากตาราง log_medical_record_audit_form_ipds_on_patients
-        const [removeLogMedicalRecordAuditFormIpdsOnPatientsResult] = await db_m.query('DELETE FROM log_medical_record_audit_form_ipds_on_patients');
-        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (removeLogMedicalRecordAuditFormIpdsOnPatientsResult.affectedRows > 0) await db_m.query('ALTER TABLE log_medical_record_audit_form_ipds_on_patients AUTO_INCREMENT = 1');
-        
-        // ลบข้อมูลจากตาราง log_medical_record_audit_form_ipds_on_review_status
-        const [removeLogMedicalRecordAuditFormIpdsOnReviewStatusResult] = await db_m.query('DELETE FROM log_medical_record_audit_form_ipds_on_review_status');
-        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (removeLogMedicalRecordAuditFormIpdsOnReviewStatusResult.affectedRows > 0) await db_m.query('ALTER TABLE log_medical_record_audit_form_ipds_on_review_status AUTO_INCREMENT = 1');
-        
         // ลบข้อมูลจากตาราง log_overall_finding
         const [removeLogOverallFindingResult] = await db_m.query('DELETE FROM log_overall_finding');
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
