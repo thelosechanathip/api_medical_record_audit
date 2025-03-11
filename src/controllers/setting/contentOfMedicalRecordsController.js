@@ -28,7 +28,23 @@ exports.getAllDataContentOfMedicalRecord = async (req, res) => {
 // ใช้สำหรับเพิ่มข้อมูล ContentOfMedicalRecords (ตารางเก็บเนื้อหาเวชระเบียน)
 exports.addDataContentOfMedicalRecord = async (req, res) => {
     try {
-        const { content_of_medical_record_name, na_type, points_deducted_type, patient_services_id } = req.body;
+        const { 
+            content_of_medical_record_name, 
+            na_type,
+            missing_type,
+            no_type,
+            criterion_number_1_type, 
+            criterion_number_2_type, 
+            criterion_number_3_type, 
+            criterion_number_4_type, 
+            criterion_number_5_type, 
+            criterion_number_6_type, 
+            criterion_number_7_type, 
+            criterion_number_8_type, 
+            criterion_number_9_type, 
+            points_deducted_type, 
+            patient_services_id
+        } = req.body;
         const { fullname } = req.user[0];
 
         // Check ว่ามีการกรอกข้อมูลเข้ามาหรือไม่?
@@ -39,11 +55,44 @@ exports.addDataContentOfMedicalRecord = async (req, res) => {
         const isEnglishOnlyResult = await isEnglishOnly(content_of_medical_record_name);
         if(!isEnglishOnlyResult) return msg(res, 400, { message: 'กรุณากรอกเป็นภาษาอังกฤษเท่านั้น!' });
 
-        const isBooleanNaResult = await isBoolean(na_type);
-        if(!isBooleanNaResult) return msg(res, 400, { message: 'na_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        const isBooleanNaTypeResult = await isBoolean(na_type);
+        if(!isBooleanNaTypeResult) return msg(res, 400, { message: 'na_type ต้องกรอกเป็น Boolean เท่านั้น!' });
         
-        const isBooleanPoinstDeductedResult = await isBoolean(points_deducted_type);
-        if(!isBooleanPoinstDeductedResult) return msg(res, 400, { message: 'points_deducted_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        const isBooleanMissingTypeResult = await isBoolean(missing_type);
+        if(!isBooleanMissingTypeResult) return msg(res, 400, { message: 'missing_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        
+        const isBooleanNoTypeResult = await isBoolean(no_type);
+        if(!isBooleanNoTypeResult) return msg(res, 400, { message: 'no_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        
+        const isBooleanCriterionNumber1TypeResult = await isBoolean(criterion_number_1_type);
+        if(!isBooleanCriterionNumber1TypeResult) return msg(res, 400, { message: 'criterion_number_1_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        
+        const isBooleanCriterionNumber2TypeResult = await isBoolean(criterion_number_2_type);
+        if(!isBooleanCriterionNumber2TypeResult) return msg(res, 400, { message: 'criterion_number_2_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber3TypeResult = await isBoolean(criterion_number_3_type);
+        if(!isBooleanCriterionNumber3TypeResult) return msg(res, 400, { message: 'criterion_number_3_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber4TypeResult = await isBoolean(criterion_number_4_type);
+        if(!isBooleanCriterionNumber4TypeResult) return msg(res, 400, { message: 'criterion_number_4_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber5TypeResult = await isBoolean(criterion_number_5_type);
+        if(!isBooleanCriterionNumber5TypeResult) return msg(res, 400, { message: 'criterion_number_5_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber6TypeResult = await isBoolean(criterion_number_6_type);
+        if(!isBooleanCriterionNumber6TypeResult) return msg(res, 400, { message: 'criterion_number_6_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber7TypeResult = await isBoolean(criterion_number_7_type);
+        if(!isBooleanCriterionNumber7TypeResult) return msg(res, 400, { message: 'criterion_number_7_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber8TypeResult = await isBoolean(criterion_number_8_type);
+        if(!isBooleanCriterionNumber8TypeResult) return msg(res, 400, { message: 'criterion_number_8_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber9TypeResult = await isBoolean(criterion_number_9_type);
+        if(!isBooleanCriterionNumber9TypeResult) return msg(res, 400, { message: 'criterion_number_9_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        
+        const isBooleanPoinstDeductedTypeResult = await isBoolean(points_deducted_type);
+        if(!isBooleanPoinstDeductedTypeResult) return msg(res, 400, { message: 'points_deducted_type ต้องกรอกเป็น Boolean เท่านั้น!' });
 
         // Check ว่ามี content_of_medical_record_name ซ้ำในระบบหรือไม่
         const checkContentOfMedicalRecordNameResult = await checkContentOfMedicalRecordName(content_of_medical_record_name, fullname);
@@ -74,9 +123,24 @@ exports.updateDataContentOfMedicalRecord = async (req, res) => {
         const checkIdContentOfMedicalRecordDataResult = await checkIdContentOfMedicalRecordData(id, fullname);
         if (!checkIdContentOfMedicalRecordDataResult) return msg(res, 404, { message: 'ไม่มี (id ตารางเก็บเนื้อหาเวชระเบียน) อยู่ในระบบ!' });
 
-        const { content_of_medical_record_name, na_type, points_deducted_type, patient_services_id } = req.body;
+        const { 
+            content_of_medical_record_name, 
+            na_type,
+            missing_type,
+            no_type,
+            criterion_number_1_type, 
+            criterion_number_2_type, 
+            criterion_number_3_type, 
+            criterion_number_4_type, 
+            criterion_number_5_type, 
+            criterion_number_6_type, 
+            criterion_number_7_type, 
+            criterion_number_8_type, 
+            criterion_number_9_type, 
+            points_deducted_type,
+            patient_services_id
+        } = req.body;
         
-
         // Check ว่ามีการกรอกข้อมูลเข้ามาหรือไม่?
         if (!content_of_medical_record_name || !patient_services_id) {
             return msg(res, 400, { message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
@@ -85,11 +149,44 @@ exports.updateDataContentOfMedicalRecord = async (req, res) => {
         const isEnglishOnlyResult = await isEnglishOnly(content_of_medical_record_name);
         if(!isEnglishOnlyResult) return msg(res, 400, { message: 'กรุณากรอกเป็นภาษาอังกฤษเท่านั้น!' });
 
-        const isBooleanNaResult = await isBoolean(na_type);
-        if(!isBooleanNaResult) return msg(res, 400, { message: 'na_type ต้องกรอกเป็น Boolean เท่านั้น!' });
-        
-        const isBooleanPoinstDeductedResult = await isBoolean(points_deducted_type);
-        if(!isBooleanPoinstDeductedResult) return msg(res, 400, { message: 'points_deducted_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+        const isBooleanNaTypeResult = await isBoolean(na_type);
+        if(!isBooleanNaTypeResult) return msg(res, 400, { message: 'na_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanMissingTypeResult = await isBoolean(missing_type);
+        if(!isBooleanMissingTypeResult) return msg(res, 400, { message: 'missing_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanNoTypeResult = await isBoolean(no_type);
+        if(!isBooleanNoTypeResult) return msg(res, 400, { message: 'no_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber1TypeResult = await isBoolean(criterion_number_1_type);
+        if(!isBooleanCriterionNumber1TypeResult) return msg(res, 400, { message: 'criterion_number_1_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber2TypeResult = await isBoolean(criterion_number_2_type);
+        if(!isBooleanCriterionNumber2TypeResult) return msg(res, 400, { message: 'criterion_number_2_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber3TypeResult = await isBoolean(criterion_number_3_type);
+        if(!isBooleanCriterionNumber3TypeResult) return msg(res, 400, { message: 'criterion_number_3_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber4TypeResult = await isBoolean(criterion_number_4_type);
+        if(!isBooleanCriterionNumber4TypeResult) return msg(res, 400, { message: 'criterion_number_4_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber5TypeResult = await isBoolean(criterion_number_5_type);
+        if(!isBooleanCriterionNumber5TypeResult) return msg(res, 400, { message: 'criterion_number_5_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber6TypeResult = await isBoolean(criterion_number_6_type);
+        if(!isBooleanCriterionNumber6TypeResult) return msg(res, 400, { message: 'criterion_number_6_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber7TypeResult = await isBoolean(criterion_number_7_type);
+        if(!isBooleanCriterionNumber7TypeResult) return msg(res, 400, { message: 'criterion_number_7_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber8TypeResult = await isBoolean(criterion_number_8_type);
+        if(!isBooleanCriterionNumber8TypeResult) return msg(res, 400, { message: 'criterion_number_8_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanCriterionNumber9TypeResult = await isBoolean(criterion_number_9_type);
+        if(!isBooleanCriterionNumber9TypeResult) return msg(res, 400, { message: 'criterion_number_9_type ต้องกรอกเป็น Boolean เท่านั้น!' });
+
+        const isBooleanPoinstDeductedTypeResult = await isBoolean(points_deducted_type);
+        if(!isBooleanPoinstDeductedTypeResult) return msg(res, 400, { message: 'points_deducted_type ต้องกรอกเป็น Boolean เท่านั้น!' });
 
         // Check ว่ามี content_of_medical_record_name ซ้ำในระบบหรือไม่
         const checkContentOfMedicalRecordNameResult = await checkContentOfMedicalRecordName(content_of_medical_record_name, fullname);
